@@ -5,7 +5,10 @@
   "author": "Sander Kallio",
   "license": "MIT",
   "scripts": {
-    "dev": "babel-node src/index.js"
+    "dev": "nodemon src/index.js -w src --exec babel-node",
+    "lint:es": "eslint src",
+    "test": "yarn lint:es",
+    "test:watch": "nodemon -w src --exec 'yarn test'"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -14,6 +17,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^1.18.6"
   }
 }
