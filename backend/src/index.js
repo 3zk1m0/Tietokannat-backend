@@ -44,7 +44,6 @@ test.get(`${apiPath}/test`, async (ctx) => {
     console.error('Error occurred:', error);
     ctx.throw(500, error);
   }
-
 });
 
 app.use(test.routes());
