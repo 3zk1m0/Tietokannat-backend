@@ -5,7 +5,7 @@
   "author": "Sander Kallio",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.js -w src --exec babel-node",
+    "dev": "nodemon src/index.js -L -w src --exec babel-node",
     "lint:es": "eslint src",
     "test": "yarn lint:es",
     "test:watch": "nodemon -w src --exec 'yarn test'",
@@ -15,6 +15,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "mysql2": "^1.6.4"
   },
