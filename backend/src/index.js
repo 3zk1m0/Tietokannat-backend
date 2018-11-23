@@ -4,6 +4,20 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import KoaBody from 'koa-bodyparser';
 import Url from 'url';
+<<<<<<< HEAD
+=======
+
+import { connectionSettings } from './settings';
+import { databaseReady } from './helpers';
+import { initDB } from './fixtures';
+
+// Initialize database
+(async () => {
+  await databaseReady();
+  await initDB();
+})();
+
+>>>>>>> code-split
 
 // The port that this server will run on, defaults to 9000
 const port = process.env.PORT || 9000;
@@ -19,22 +33,13 @@ const todos = new Router();
 // Define API path
 const apiPath = '/api/v1';
 
-// Define mysql credentials
-const connectionSettings = {
-  host: 'db',
-  user: 'root',
-  database: 'db_1',
-  password: 'db_rootpass',
-  namedPlaceholders: true,
-};
-
 
 test.get(`${apiPath}/test`, async (ctx) => {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
         SELECT *
-        FROM test_table
+        FROM todos
       `);
 
     console.log('Data fetched:', data);
@@ -204,10 +209,90 @@ todos.post(todosPath, checkAccept, checkContent, koaBody, async (ctx) => {
 
 // PUT /resource/:id
 todos.put(todoPath, checkAccept, checkContent, koaBody, async (ctx) => {
+<<<<<<< HEAD
+=======
+  const { id } = ctx.params;
+  const { text, done } = ctx.request.body;
+  console.log('.put id contains:', id);
+  console.log('.put text contains:', text);
+  console.log('.put done contains:', done);
+
+  if (isNaN(id) || id.includes('.')) {
+    ctx.throw(400, 'id must be an integer');
+  } else if (typeof text === 'undefined') {
+    ctx.throw(400, 'body.text is required');
+  } else if (typeof text !== 'string') {
+    ctx.throw(400, 'body.done must be string');
+  } else if (typeof done === 'undefined') {
+    ctx.throw(400, 'body.done is required');
+  } else if (typeof done !== 'boolean') {
+    ctx.throw(400, 'body.done must be boolean');
+  }
+
+  try {
+    const conn = await mysql.createConnection(connectionSettings);
+
+    // Update the todo
+    const [status] = await conn.execute(`
+           UPDATE todos
+           SET text = :text, done = :done
+           WHERE id = :id;
+         `, { id, text, done: Number(done) });
+
+    if (status.affectedRows === 0) {
+      // If the resource does not already exist, create it
+      await conn.execute(`
+          INSERT INTO todos (id, text, done)
+          VALUES (:id, :text, :done);
+        `, { id, text, done: Number(done) });
+    }
+
+    // Get the todo
+    const [data] = await conn.execute(`
+           SELECT *
+           FROM todos
+           WHERE id = :id;
+         `, { id });
+
+    // Return the resource
+    ctx.body = data[0];
+  } catch (error) {
+    console.error('Error occurred:', error);
+    ctx.throw(500, error);
+  }
+>>>>>>> code-split
 });
 
 // DELETE /resource/:id
 todos.del(todoPath, async (ctx) => {
+<<<<<<< HEAD
+=======
+  const { id } = ctx.params;
+  console.log('.del id contains:', id);
+
+  if (isNaN(id) || id.includes('.')) {
+    ctx.throw(400, 'id must be an integer');
+  }
+
+  try {
+    const conn = await mysql.createConnection(connectionSettings);
+    const [status] = await conn.execute(`
+          DELETE FROM todos
+          WHERE id = :id;
+        `, { id });
+
+    if (status.affectedRows === 0) {
+      // The row did not exist, return '404 Not  found'
+      ctx.status = 404;
+    } else {
+      // Return '204 No Content' status code for successful delete
+      ctx.status = 204;
+    }
+  } catch (error) {
+    console.error('Error occurred:', error);
+    ctx.throw(500, error);
+  }
+>>>>>>> code-split
 });
 
 
