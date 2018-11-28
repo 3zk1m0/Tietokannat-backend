@@ -9,8 +9,8 @@ import { connectionSettings, apiPath } from './settings';
 import { databaseReady } from './helpers';
 import { initDB } from './fixtures';
 
-import testRoutes from './apis/test';
-import todoRoutes from './apis/todos';
+import addRoutes from './apis';
+
 
 import { checkAccept, checkContent } from './middleware';
 
@@ -34,8 +34,8 @@ const todos = new Router();
 const loansystem = new Router();
 
 
-testRoutes(test);
-todoRoutes(todos, koaBody);
+// ????  ALL ROUTES added to todos ????
+addRoutes(todos, koaBody);
 
 
 app.use(test.routes());

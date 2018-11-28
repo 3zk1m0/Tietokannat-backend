@@ -1,8 +1,8 @@
-import delRoute from './del';
-import getAllRoute from './getAll';
-import getSingleRoute from './getSingel';
-import postRoute from './post';
-import putRoute from './put';
+import delRoute from './deleteUsers';
+import getAllRoute from './getAllUsers';
+import getSingleRoute from './getSingleUser';
+import postRoute from './postUsers';
+import putRoute from './putUsers';
 
 import { todoPath, todosPath } from '../../../settings';
 import { checkAccept, checkContent } from '../../../middleware';
