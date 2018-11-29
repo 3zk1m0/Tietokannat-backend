@@ -1,4 +1,4 @@
-// Define Mysql connection 
+// Define Mysql connection
 export const connectionSettings = {
   host: 'db',
   user: 'root',
@@ -13,3 +13,6 @@ export const apiPath = '/api/v1';
 // Define todos paths
 export const todosPath = `${apiPath}/todos`;
 export const todoPath = `${todosPath}/:id`;
+
+
+export const loansystemPath = `${apiPath}/loansystem`;

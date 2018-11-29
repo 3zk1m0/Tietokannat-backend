@@ -4,16 +4,16 @@ import getSingleRoute from './getSingleDevice';
 import postRoute from './postDevices';
 import putRoute from './putDevices';
 
-import { todoPath, todosPath } from '../../../settings';
+import { loansystemPath } from '../../../settings';
 import { checkAccept, checkContent } from '../../../middleware';
 
 
 function addRoutes(app, koaBody) {
-  app.del(todoPath, delRoute);
-  app.get(todosPath, checkAccept, getAllRoute);
-  app.get(todoPath, checkAccept, getSingleRoute);
-  app.post(todosPath, checkAccept, checkContent, koaBody, postRoute);
-  app.put(todoPath, checkAccept, checkContent, koaBody, putRoute);
+  app.del(`${loansystemPath}/devices/:id`, delRoute);
+  app.get(`${loansystemPath}/devices`, checkAccept, getAllRoute);
+  app.get(`${loansystemPath}/devices/:id`, checkAccept, getSingleRoute);
+  app.post(`${loansystemPath}/devices`, checkAccept, checkContent, koaBody, postRoute);
+  app.put(`${loansystemPath}/devices/:id`, checkAccept, checkContent, koaBody, putRoute);
 }
 
 module.exports = addRoutes;
