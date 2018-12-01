@@ -9,6 +9,7 @@ import { checkAccept, checkContent } from '../../../middleware';
 
 
 function addRoutes(app, koaBody) {
+  console.log('devices');
   app.del(`${loansystemPath}/devices/:id`, delRoute);
   app.get(`${loansystemPath}/devices`, checkAccept, getAllRoute);
   app.get(`${loansystemPath}/devices/:id`, checkAccept, getSingleRoute);

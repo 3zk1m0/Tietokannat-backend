@@ -4,6 +4,7 @@ import { connectionSettings } from '../../../settings';
 
 // DELETE /resource/:id
 async function getDevices(ctx) {
+  console.log('test');
   const url = Url.parse(ctx.url, true);
   const { sort } = url.query;
 

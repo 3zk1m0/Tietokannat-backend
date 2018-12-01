@@ -1,3 +1,8 @@
 Get single
 
 SELECT * FROM db_1.laitteet  where bin_to_uuid(id) = '08a0e8a4-f3b9-11e8-9574-0242ac180002';
+
+SELECT bin_to_uuid(id), deviceName, deviceInfo, loantime, bin_to_uuid(device_id), bin_to_uuid(person_id) FROM devices, responsibility Where id = device_id;
+
+INSERT INTO responsibility (device_id, person_id)
+VALUES (uuid_to_bin('d635d5e5-f429-11e8-bc2d-0242ac1a0003'), uuid_to_bin('e6cc3e70-f429-11e8-bc2d-0242ac1a0003'));
