@@ -49,4 +49,4 @@ app.use(loansystem.allowedMethods());
 app.listen(port);
 
 console.log(`App listening on port ${port}`);
-//console.log(todos.stack.map(i => i.path));
+// console.log(todos.stack.map(i => i.path));

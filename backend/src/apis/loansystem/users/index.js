@@ -4,7 +4,7 @@ import getSingleRoute from './getSingleUser';
 import postRoute from './postUsers';
 import putRoute from './putUsers';
 
-import { loansystemPath } from '../../../settings';
+import { loansystemPath } from '../../constants';
 import { checkAccept, checkContent } from '../../../middleware';
 
 

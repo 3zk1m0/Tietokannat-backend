@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import Router from 'koa-router';
-import { loansystemPath, connectionSettings } from '../../../settings';
+import { connectionSettings } from '../../../settings';
+import { loansystemPath } from '../../constants';
 
 // DELETE /resource/:id
 async function postUsers(ctx) {

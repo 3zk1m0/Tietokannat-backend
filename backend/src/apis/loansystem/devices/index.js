@@ -4,7 +4,7 @@ import getSingleRoute from './getSingleDevice';
 import postRoute from './postDevices';
 import putRoute from './putDevices';
 
-import { loansystemPath } from '../../../settings';
+import { loansystemPath } from '../../constants';
 import { checkAccept, checkContent } from '../../../middleware';
 
 

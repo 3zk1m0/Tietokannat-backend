@@ -1,5 +1,5 @@
 import getRoute from './get';
-import { apiPath } from '../../settings';
+import { apiPath } from '../constants';
 
 function addRoutes(app) {
   // console.log(`${apiPath}/test`);

@@ -6,7 +6,7 @@ import getSingleRoute from './getSingel';
 import postRoute from './post';
 import putRoute from './put';
 
-import { todoPath, todosPath } from '../../settings';
+import { todoPath, todosPath } from '../constants';
 import { checkAccept, checkContent } from '../../middleware';
 
 

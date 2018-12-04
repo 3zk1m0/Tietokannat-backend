@@ -4,7 +4,7 @@ import getSingleRoute from './getSingleLoan';
 import postRoute from './postLoans';
 import putRoute from './putLoans';
 
-import { loansystemPath } from '../../../settings';
+import { loansystemPath } from '../../constants';
 import { checkAccept, checkContent } from '../../../middleware';
 
 
