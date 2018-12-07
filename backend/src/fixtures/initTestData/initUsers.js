@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import faker from 'faker';
 import { connectionSettings } from '../../settings';
 
-const count = 5;
+const count = 10;
 
 export default async () => {
   console.log('initUsers');
@@ -25,5 +25,7 @@ export default async () => {
             VALUES ('${randomName}', '${randomRole}', '${randomUsername}', '${password}');
             `);
     }
+  } else {
+    console.log('Skipped');
   }
 };

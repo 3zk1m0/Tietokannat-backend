@@ -19,19 +19,20 @@ export default async () => {
   const conn = await mysql.createConnection(connectionSettings);
 
   const [data] = await conn.execute(`
-          SELECT count(*) as count
+          SELECT count(id) as count
           FROM devices;
           `);
-
   if (data[0].count === 0) {
     let device = '';
     for (let i = 0; i < count; i += 1) {
-      device = deviceList[Math.floor(Math.random() * deviceList.length())];
-
+      device = deviceList[Math.floor(Math.random() * deviceList.length)];
+      //console.log(device);
       conn.execute(`
-            INSERT INTO users (name, info, loantime)
+            INSERT INTO devices (deviceName, deviceInfo, loantime)
             VALUES ('${device.name}', '${device.name}', '${device.loantime}');
             `);
     }
+  } else {
+    console.log('Skipped');
   }
 };

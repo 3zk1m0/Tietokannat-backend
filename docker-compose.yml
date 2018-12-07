@@ -1,14 +1,14 @@
 version: '3'
 services:
-  backend:
-    build:
-      context: ./
-      dockerfile: .dockerfiles/BackendDev
-    ports:
-      - "9000:9000"
-    volumes:
-      - ./backend:/opt/app
-    restart: always
+  #backend:
+  #  build:
+  #    context: ./
+  #    dockerfile: .dockerfiles/BackendDev
+  #  ports:
+  #    - "9000:9000"
+  #  volumes:
+  #    - ./backend:/opt/app
+  #  restart: always
   #backend_test:
   #  build:
   #    context: ./
