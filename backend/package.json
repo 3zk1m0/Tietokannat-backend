@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "faker": "^4.1.0",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
+    "md5": "^2.2.1",
     "mysql2": "^1.6.4"
   },
   "devDependencies": {

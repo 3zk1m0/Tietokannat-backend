@@ -7,10 +7,9 @@ import Url from 'url';
 
 import { connectionSettings, apiPath } from './settings';
 import { databaseReady } from './helpers';
-import { initDB } from './fixtures';
+import { initDB, initTestData } from './fixtures';
 
 import addRoutes from './apis';
-
 
 import { checkAccept, checkContent } from './middleware';
 
@@ -19,6 +18,7 @@ import { checkAccept, checkContent } from './middleware';
 (async () => {
   await databaseReady();
   await initDB();
+  await initTestData();
 })();
 
 // The port that this server will run on, defaults to 9000
