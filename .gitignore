@@ -12,3 +12,9 @@ build/
 # Files that do not belong to the root folder
 /yarn.lock
 /package.json
+
+# Mysql data
+sql-data/
+
+#visual studio settings
+.vscode/
