@@ -9,5 +9,5 @@ export default async () => {
   await initUsers();
   await initDevices();
   await initResposibilitys();
-  // initLoans();
+  await initLoans();
 };
