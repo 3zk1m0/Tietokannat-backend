@@ -5,15 +5,6 @@ import initLoans from './initLoans';
 import initReturned from './initReturned';
 
 
-function getRandomDate() {
-  const date = new Date();
-  const fromDate = new Date(date.setMonth(date.getMonth() - 2));
-  const toDate = new Date(date.setMonth(date.getMonth() - 1));
-  const newDate = new Date(fromDate + Math.random() * (toDate - fromDate));
-  // console.log(newDate);
-  return newDate;
-}
-
 function randomDate() {
   const date = new Date();
   const start = new Date(date.setMonth(date.getMonth() - 2));
@@ -24,7 +15,7 @@ function randomDate() {
 }
 
 export default async () => {
-  console.log('initLoans');
+  
   const conn = await mysql.createConnection(connectionSettings);
 
   const [data] = await conn.execute(`
@@ -33,6 +24,7 @@ export default async () => {
           `);
 
   if (data[0].count === 0) {
+    console.log('initLoans');
     const [devices] = await conn.execute('SELECT bin_to_uuid(id) as id, loantime FROM devices;');
     const [admins] = await conn.execute('SELECT bin_to_uuid(id) as id FROM users WHERE role = "admin";');
     const [users] = await conn.execute('SELECT bin_to_uuid(id) as id FROM users WHERE role = "user";');

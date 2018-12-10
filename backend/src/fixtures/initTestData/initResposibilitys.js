@@ -3,7 +3,7 @@ import { connectionSettings } from '../../settings';
 
 
 export default async () => {
-  console.log('initResponsibilitys');
+  
   const conn = await mysql.createConnection(connectionSettings);
 
   const [data] = await conn.execute(`
@@ -12,6 +12,7 @@ export default async () => {
         `);
 
   if (data[0].count === 0) {
+    console.log('initResponsibilitys');
     const [devices] = await conn.execute(`
             SELECT bin_to_uuid(id) as id, deviceName
             FROM devices;

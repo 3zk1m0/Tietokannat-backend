@@ -6,17 +6,16 @@ async function getSingleUsers(ctx) {
   const { id } = ctx.params;
   console.log('.get id contains:', id);
 
-  if (isNaN(id) || id.includes('.')) {
+  /* if (isNaN(id) || id.includes('.')) {
     ctx.throw(400, 'id must be an integer');
-  }
+  } */
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id), name, role, role, password, token
+          SELECT bin_to_uuid(id) as id, name, role, role, password, token
           FROM users
-          WHERE id = :id;
-        `, { id });
+          WHERE bin_to_uuid(id) = '${id}';`);
 
     // Return the resource
     ctx.body = data[0];

@@ -15,7 +15,6 @@ const deviceList = [
 ];
 
 export default async () => {
-  console.log('initDevices');
   const conn = await mysql.createConnection(connectionSettings);
 
   const [data] = await conn.execute(`
@@ -23,6 +22,7 @@ export default async () => {
           FROM devices;
           `);
   if (data[0].count === 0) {
+    console.log('initDevices');
     let device = '';
     for (let i = 0; i < count; i += 1) {
       device = deviceList[Math.floor(Math.random() * deviceList.length)];

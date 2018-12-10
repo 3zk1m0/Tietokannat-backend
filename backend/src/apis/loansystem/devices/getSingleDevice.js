@@ -6,14 +6,14 @@ async function getSingleDevices(ctx) {
   const { id } = ctx.params;
   console.log('.get id contains:', id);
 
-  if (isNaN(id) || id.includes('.')) {
+  /* if (isNaN(id) || id.includes('.')) {
     ctx.throw(400, 'id must be an integer');
-  }
+  } */
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id), deviceName, deviceInfo, loantime 
+          SELECT bin_to_uuid(id) as id, deviceName, deviceInfo, loantime 
           FROM devices
           WHERE bin_to_uuid(id) = '${id}';`);
 

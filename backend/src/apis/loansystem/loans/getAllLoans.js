@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import Url from 'url';
 import { connectionSettings } from '../../../settings';
 
 // DELETE /resource/:id
@@ -43,9 +44,9 @@ async function getLoans(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-        SELECT bin_to_uuid(id), device_id, loaningTime, dueDate, returnTime, 
-        loansState, returnState, bin_to_uuid(customer_id), 
-        bin_to_uuid(loanGiver_id), bin_to_uuid(loanReceiver_id)
+        SELECT bin_to_uuid(id) as id, bin_to_uuid(device_id) as device_id, loaningTime, dueDate, returnTime, 
+        loansState, returnState, bin_to_uuid(customer_id) as customer_id, 
+        bin_to_uuid(loanGiver_id) as loanGiver_id, bin_to_uuid(loanReceiver_id) as loanReceiver_id
         FROM loans
         ${orderBy}
       `);

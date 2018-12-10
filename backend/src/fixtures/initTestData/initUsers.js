@@ -5,7 +5,6 @@ import { connectionSettings } from '../../settings';
 const count = 10;
 
 export default async () => {
-  console.log('initUsers');
   const conn = await mysql.createConnection(connectionSettings);
 
   const [data] = await conn.execute(`
@@ -14,6 +13,7 @@ export default async () => {
           `);
 
   if (data[0].count === 0) {
+    console.log('initUsers');
     for (let i = 0; i < count; i += 1) {
       let randomName = faker.name.findName();
       let randomUsername = faker.internet.userName();

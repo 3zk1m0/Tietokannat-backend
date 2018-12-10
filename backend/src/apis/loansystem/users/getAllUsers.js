@@ -1,4 +1,5 @@
 import mysql from 'mysql2/promise';
+import Url from 'url';
 import { connectionSettings } from '../../../settings';
 
 // DELETE /resource/:id
@@ -43,7 +44,7 @@ async function getAllUsers(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-        SELECT bin_to_uuid(id), name, role, role, password, token 
+        SELECT bin_to_uuid(id) as id, name, role, role, password, token 
         FROM users
         ${orderBy}
       `);
