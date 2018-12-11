@@ -18,7 +18,7 @@ async function putResponsibilitys(ctx) {
     const [status] = await conn.execute(`
            UPDATE responsibility
            SET user_id = uuid_to_bin('${body.user_id}'), device_id = uuid_to_bin('${body.device_id}')
-           WHERE id = uuid_to_bin('${id}');
+           WHERE uuid = '${id}';
          `);
 
     let data;
@@ -29,15 +29,15 @@ async function putResponsibilitys(ctx) {
         VALUES (uuid_to_bin('${body.user_id}'), uuid_to_bin('${body.device_id}'));`);
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, bin_to_uuid(user_id) as user_id, bin_to_uuid(device_id) as device_id
+            SELECT uuid as id, user_uuid as user_id, device_uuid as device_id
             FROM responsibility
             WHERE id = @last_uuid;`);
     } else {
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, bin_to_uuid(user_id) as user_id, bin_to_uuid(device_id) as device_id
+            SELECT uuid as id,user_uuid as user_id, device_uuid as device_id
             FROM responsibility
-            WHERE id = uuid_to_bin('${id}');`);
+            WHERE uuid = '${id}';`);
     }
     // console.log(data);
     // Return the resource

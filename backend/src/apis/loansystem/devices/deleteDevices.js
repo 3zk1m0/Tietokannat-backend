@@ -6,7 +6,7 @@ async function deleteDevices(ctx) {
   const { id } = ctx.params;
   console.log('.del id contains:', id);
 
-  if (isNaN(id) || id.includes('.')) {
+  if (typeof id !== 'string') {
     ctx.throw(400, 'id must be an integer');
   }
 
@@ -14,7 +14,7 @@ async function deleteDevices(ctx) {
     const conn = await mysql.createConnection(connectionSettings);
     const [status] = await conn.execute(`
           DELETE FROM devices
-          WHERE bin_to_uuid(id) = '${id}';`);
+          WHERE uuid = '${id}';`);
 
     if (status.affectedRows === 0) {
       // The row did not exist, return '404 Not  found'

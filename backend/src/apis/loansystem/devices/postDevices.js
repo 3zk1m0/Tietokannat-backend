@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import { postDeviceBody } from '../../../helpers/bodyCheckers/postUserBody';
+import { postDeviceBody } from '../../../helpers/bodyCheckers';
 
 async function postDevices(ctx) {
   const body = ctx.request.body;
@@ -19,9 +19,9 @@ async function postDevices(ctx) {
     const [newLoan] = await conn.execute('SELECT bin_to_uuid(@last_uuid) as id;');
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id), deviceName, deviceInfo, loantime)
+          SELECT uuid as id, deviceName, deviceInfo, loantime
           FROM devices
-          WHERE id = uuid_to_bin('${newLoan[0].id}');
+          WHERE uuid = '${newLoan[0].id}';
         `);
 
     // Set the response header to 201 Created

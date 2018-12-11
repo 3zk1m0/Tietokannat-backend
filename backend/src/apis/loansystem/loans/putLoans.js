@@ -18,7 +18,7 @@ async function putLoans(ctx) {
     const [status] = await conn.execute(`
            UPDATE loans
            SET loaningTime = '${body.loaningTime}', dueDate = '${body.dueDate}', returnTime = '${body.returnTime}', returnState = '${body.returnState}', loansState = '${body.loansState}', device_id = uuid_to_bin('${body.device_id}'), customer_id = uuid_to_bin('${body.customer_id}'), loanGiver_id = uuid_to_bin('${body.loanGiver_id}'), loanReceiver_id = uuid_to_bin('${body.loanReceiver_id}')
-           WHERE id = uuid_to_bin('${id}');
+           WHERE uuid = '${id}';
          `);
 
     let data;
@@ -29,15 +29,15 @@ async function putLoans(ctx) {
         VALUES ('${body.loaningTime}', '${body.dueDate}', '${body.returnTime}', '${body.returnState}', '${body.loansState}', uuid_to_bin('${body.device_id}'), uuid_to_bin('${body.customer_id}'), uuid_to_bin('${body.loanGiver_id}'), uuid_to_bin('${body.loanReceiver_id})');`);
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, loaningTime, dueDate, returnTime, returnState, loansState, bin_to_uuid(device_id), bin_to_uuid(customer_id), bin_to_uuid(loanGiver_id), bin_to_uuid(loanReceiver_id)
+            SELECT uuid as id, loaningTime, dueDate, returnTime, returnState, loansState, device_uuid as device_id, customer_uuid as customer_id, loanGiver_uuid as loanGiver_id, loanReceiver_uuid as loanGiver_id
             FROM loans
             WHERE id = @last_uuid;`);
     } else {
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, loaningTime, dueDate, returnTime, returnState, loansState, bin_to_uuid(device_id), bin_to_uuid(customer_id), bin_to_uuid(loanGiver_id), bin_to_uuid(loanReceiver_id)
+      SELECT uuid as id, loaningTime, dueDate, returnTime, returnState, loansState, device_uuid as device_id, customer_uuid as customer_id, loanGiver_uuid as loanGiver_id, loanReceiver_uuid as loanGiver_id
             FROM loans
-            WHERE id = uuid_to_bin('${id}');`);
+            WHERE uuid = '${id}';`);
     }
     // console.log(data);
     // Return the resource

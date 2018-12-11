@@ -7,16 +7,16 @@ async function get(ctx) {
   const { id } = ctx.params;
   console.log('.get id contains:', id);
 
-  if (isNaN(id) || id.includes('.')) {
+  if (typeof id === 'string') {
     ctx.throw(400, 'id must be an integer');
   }
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-          SELECT *
+          SELECT uuid as id, text, done
           FROM todos
-          WHERE id = :id;
+          WHERE uuid = :id;
         `, { id });
 
     // Return the resource

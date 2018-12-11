@@ -19,9 +19,9 @@ async function postResponsibility(ctx) {
     const [newLoan] = await conn.execute('SELECT bin_to_uuid(@last_uuid) as id;');
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id) as id, bin_to_uuid(user_id), bin_to_uuid(device_id)
+          SELECT uuid as id, user_uuid, device_uuid
           FROM responsibility
-          WHERE id = uuid_to_bin('${newLoan[0].id}');
+          WHERE uuid = '${newLoan[0].id}';
         `);
 
     // Set the response header to 201 Created

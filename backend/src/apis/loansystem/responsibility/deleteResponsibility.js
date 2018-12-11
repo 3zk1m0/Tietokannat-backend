@@ -14,7 +14,7 @@ async function deleteResponsibility(ctx) {
     const conn = await mysql.createConnection(connectionSettings);
     const [status] = await conn.execute(`
           DELETE FROM responsibility
-          WHERE bin_to_uuid(id) = '${id}';`);
+          WHERE uuid = '${id}';`);
 
     if (status.affectedRows === 0) {
       // The row did not exist, return '404 Not  found'

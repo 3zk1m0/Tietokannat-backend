@@ -29,22 +29,22 @@ async function put(ctx) {
     const [status] = await conn.execute(`
            UPDATE todos
            SET text = :text, done = :done
-           WHERE id = :id;
+           WHERE uuid = :id;
          `, { id, text, done: Number(done) });
 
     if (status.affectedRows === 0) {
       // If the resource does not already exist, create it
       await conn.execute(`
           INSERT INTO todos (id, text, done)
-          VALUES (:id, :text, :done);
+          VALUES (uuid_to_bin(':id'), :text, :done);
         `, { id, text, done: Number(done) });
     }
 
     // Get the todo
     const [data] = await conn.execute(`
-           SELECT *
+           SELECT uuid as id, text, done
            FROM todos
-           WHERE id = :id;
+           WHERE uuid = :id;
          `, { id });
 
     // Return the resource
