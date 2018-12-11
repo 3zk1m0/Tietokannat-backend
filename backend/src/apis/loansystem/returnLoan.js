@@ -27,7 +27,7 @@ async function addLoan(ctx) {
 
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT returnTime, dueDate, returnTime, loansState, returnState, bin_to_uuid(device_id), bin_to_uuid(customer_id), bin_to_uuid(loanGiver_id), bin_to_uuid(loanReceiver_id)
+          SELECT bin_to_uuid(id), returnTime, dueDate, returnTime, loansState, returnState, bin_to_uuid(device_id), bin_to_uuid(customer_id), bin_to_uuid(loanGiver_id), bin_to_uuid(loanReceiver_id)
           FROM loans
           WHERE id = uuid_to_bin("${body.id}");
         `);

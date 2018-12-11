@@ -32,7 +32,5 @@ export default async () => {
             VALUES ('${device.name}', '${device.name}', '${device.loantime}');
             `);
     }
-  } else {
-    console.log('Skipped');
   }
 };

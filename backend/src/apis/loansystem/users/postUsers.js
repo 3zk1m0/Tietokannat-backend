@@ -2,40 +2,34 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
+import { postUserBody } from '../../../helpers/bodyCheckers/postUserBody';
 
 // DELETE /resource/:id
 async function postUsers(ctx) {
-  const { text } = ctx.request.body;
-  console.log('.post text contains:', text);
+  const body = ctx.request.body;
+  console.log('.post text contains:', body);
 
-  if (typeof text === 'undefined') {
-    ctx.throw(400, 'body.text is required');
-  } else if (typeof text !== 'string') {
-    ctx.throw(400, 'body.done must be string');
-  }
+  postUserBody(ctx, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
+    await conn.execute(`
+      INSERT INTO users (name, role, username, password)
+      VALUES ('${body.name}', '${body.role}', '${body.username}', '${body.password}');`);
 
-    // Insert a new todo
-    const [status] = await conn.execute(`
-          INSERT INTO users (text)
-          VALUES (:text);
-        `, { text });
-    const { insertId } = status;
-
+    const [newLoan] = await conn.execute('SELECT bin_to_uuid(@last_uuid) as id;');
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT *
+          SELECT bin_to_uuid(id), name, role, username, password)
           FROM users
-          WHERE id = :id;
-        `, { id: insertId });
+          WHERE id = uuid_to_bin('${newLoan[0].id}');
+        `);
 
     // Set the response header to 201 Created
     ctx.status = 201;
 
     // Set the Location header to point to the new resource
-    const newUrl = `${ctx.host}${Router.url(`${loansystemPath}/users/:id`, { id: insertId })}`;
+    const newUrl = `${ctx.host}${Router.url(`${loansystemPath}/users/:id`, { id: newLoan[0].id })}`;
     ctx.set('Location', newUrl);
 
     // Return the new todo

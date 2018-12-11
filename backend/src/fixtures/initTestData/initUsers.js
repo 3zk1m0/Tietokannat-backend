@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import faker from 'faker';
 import { connectionSettings } from '../../settings';
 
-const count = 10;
+const count = 20;
 
 export default async () => {
   const conn = await mysql.createConnection(connectionSettings);
@@ -19,13 +19,12 @@ export default async () => {
       let randomUsername = faker.internet.userName();
       let randomRole = ['admin', 'user'][Math.floor(Math.random() * 2)];
       let password = '08d6c05a21512a79a1dfeb9d2a8f262f';
-
+      console.log(randomName);
       conn.execute(`
             INSERT INTO users (name, role, username, password)
             VALUES ('${randomName}', '${randomRole}', '${randomUsername}', '${password}');
             `);
     }
-  } else {
-    console.log('Skipped');
+    console.log('Done');
   }
 };

@@ -1,40 +1,35 @@
 import mysql from 'mysql2/promise';
 import Router from 'koa-router';
-import { loansystemPath, connectionSettings } from '../../../settings';
+import { connectionSettings } from '../../../settings';
+import { loansystemPath } from '../../constants';
+import { postLoanBody } from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
 async function postLoans(ctx) {
-  const { text } = ctx.request.body;
-  console.log('.post text contains:', text);
+  const body = ctx.request.body;
+  console.log('.post text contains:', body);
 
-  if (typeof text === 'undefined') {
-    ctx.throw(400, 'body.text is required');
-  } else if (typeof text !== 'string') {
-    ctx.throw(400, 'body.done must be string');
-  }
+  postLoanBody(ctx, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
+    await conn.execute(`
+      INSERT INTO loans (loaningTime, dueDate, returnTime, returnState, loansState, device_id, customer_id, loanGiver_id, loanReceiver_id)
+      VALUES ('${body.loaningTime}', '${body.dueDate}', '${body.returnTime}', '${body.returnState}', '${body.loansState}', uuid_to_bin('${body.device_id}'), uuid_to_bin('${body.customer_id}'), uuid_to_bin('${body.loanGiver_id}'), uuid_to_bin('${body.loanReceiver_id}'));`);
 
-    // Insert a new todo
-    const [status] = await conn.execute(`
-          INSERT INTO loans (text)
-          VALUES (:text);
-        `, { text });
-    const { insertId } = status;
-
+    const [newLoan] = await conn.execute('SELECT bin_to_uuid(@last_uuid) as id;');
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT *
+          SELECT bin_to_uuid(id), returnTime, dueDate, returnTime, loansState, returnState, bin_to_uuid(device_id), bin_to_uuid(customer_id), bin_to_uuid(loanGiver_id), bin_to_uuid(loanReceiver_id)
           FROM loans
-          WHERE id = :id;
-        `, { id: insertId });
+          WHERE id = uuid_to_bin('${newLoan[0].id}');
+        `);
 
     // Set the response header to 201 Created
     ctx.status = 201;
 
     // Set the Location header to point to the new resource
-    const newUrl = `${ctx.host}${Router.url(`${loansystemPath}/loans/:id`, { id: insertId })}`;
+    const newUrl = `${ctx.host}${Router.url(`${loansystemPath}/loans/:id`, { id: newLoan[0].id })}`;
     ctx.set('Location', newUrl);
 
     // Return the new todo

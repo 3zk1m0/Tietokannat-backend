@@ -40,7 +40,5 @@ export default async () => {
         admins[Math.floor(Math.random() * admins.length)],
         admins[Math.floor(Math.random() * admins.length)]);
     }
-  } else {
-    console.log('skipped');
   }
 };

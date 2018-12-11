@@ -1,45 +1,45 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
-import { putUserBody } from '../../../helpers/bodyCheckers';
+import { putResponsibilityBody } from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
-async function putUsers(ctx) {
+async function putResponsibilitys(ctx) {
   const { id } = ctx.params;
   const body = ctx.request.body;
   console.log('.put id contains:', id);
   console.log('.put body contains:', body);
 
-  putUserBody(ctx, id, body);
+  putResponsibilityBody(ctx, id, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
 
     // Update the todo
     const [status] = await conn.execute(`
-           UPDATE users
-           SET name = '${body.name}', role = '${body.role}', username = '${body.username}', password = '${body.password}'
+           UPDATE responsibility
+           SET user_id = uuid_to_bin('${body.user_id}'), device_id = uuid_to_bin('${body.device_id}')
            WHERE id = uuid_to_bin('${id}');
          `);
 
     let data;
-
     if (status.affectedRows === 0) {
       // If the resource does not already exist, create it
       await conn.execute(`
-        INSERT INTO users (name, role, username, password)
-        VALUES ('${body.name}', '${body.role}', '${body.username}', '${body.password}');`);
+        INSERT INTO responsibility (user_id, device_id)
+        VALUES (uuid_to_bin('${body.user_id}'), uuid_to_bin('${body.device_id}'));`);
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, name, role, username, password
-            FROM users
+            SELECT bin_to_uuid(id) as id, bin_to_uuid(user_id) as user_id, bin_to_uuid(device_id) as device_id
+            FROM responsibility
             WHERE id = @last_uuid;`);
     } else {
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, name, role, username, password
-            FROM users
+            SELECT bin_to_uuid(id) as id, bin_to_uuid(user_id) as user_id, bin_to_uuid(device_id) as device_id
+            FROM responsibility
             WHERE id = uuid_to_bin('${id}');`);
     }
+    // console.log(data);
     // Return the resource
     ctx.body = data[0];
   } catch (error) {
@@ -48,4 +48,4 @@ async function putUsers(ctx) {
   }
 }
 
-module.exports = putUsers;
+module.exports = putResponsibilitys;

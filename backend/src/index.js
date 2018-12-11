@@ -1,18 +1,12 @@
 import 'babel-polyfill';
-import mysql from 'mysql2/promise';
 import Koa from 'koa';
 import Router from 'koa-router';
 import KoaBody from 'koa-bodyparser';
-import Url from 'url';
 
-import { connectionSettings, apiPath } from './settings';
 import { databaseReady } from './helpers';
 import { initDB, initTestData } from './fixtures';
 
 import addRoutes from './apis';
-
-import { checkAccept, checkContent } from './middleware';
-
 
 // Initialize database
 (async () => {
