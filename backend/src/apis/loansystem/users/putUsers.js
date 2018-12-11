@@ -18,7 +18,7 @@ async function putUsers(ctx) {
     const [status] = await conn.execute(`
            UPDATE users
            SET name = '${body.name}', role = '${body.role}', username = '${body.username}', password = '${body.password}'
-           WHERE id = uuid_to_bin('${id}');
+           WHERE uuid = '${id}';
          `);
 
     let data;
@@ -30,15 +30,15 @@ async function putUsers(ctx) {
         VALUES ('${body.name}', '${body.role}', '${body.username}', '${body.password}');`);
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, name, role, username, password
+            SELECT uuid as id, name, role, username, password
             FROM users
             WHERE id = @last_uuid;`);
     } else {
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, name, role, username, password
+            SELECT uuid as id, name, role, username, password
             FROM users
-            WHERE id = uuid_to_bin('${id}');`);
+            WHERE uuid = '${id}';`);
     }
     // Return the resource
     ctx.body = data[0];

@@ -20,9 +20,9 @@ async function postLoans(ctx) {
     const [newLoan] = await conn.execute('SELECT bin_to_uuid(@last_uuid) as id;');
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id), returnTime, dueDate, returnTime, loansState, returnState, bin_to_uuid(device_id), bin_to_uuid(customer_id), bin_to_uuid(loanGiver_id), bin_to_uuid(loanReceiver_id)
+          SELECT uuid, returnTime, dueDate, returnTime, loansState, returnState, device_uuid as device_id, customer_uuid as customer_id, loanGiver_uuid as loanGiver_id, loanReceiver_uuid as loanReceiver_id
           FROM loans
-          WHERE id = uuid_to_bin('${newLoan[0].id}');
+          WHERE uuid = '${newLoan[0].id}';
         `);
 
     // Set the response header to 201 Created

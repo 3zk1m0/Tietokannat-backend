@@ -4,16 +4,17 @@ import { connectionSettings } from '../../settings';
 import { loansystemPath } from '../constants';
 import { returnBody } from '../../helpers/bodyCheckers';
 
-async function addLoan(ctx) {
+async function returnLoan(ctx) {
+  const { id } = ctx.params;
   const body = ctx.request.body;
   console.log(body);
 
-  returnBody(ctx, body);
+  returnBody(ctx, id, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
 
-    const [loan] = await conn.execute(`SELECT returnState FROM loans WHERE id = uuid_to_bin("${body.id}");`);
+    const [loan] = await conn.execute(`SELECT returnState FROM loans WHERE uuid = "${id}";`);
     if (loan[0].returnState !== null) {
       ctx.throw(400, 'Device already returned!');
     }
@@ -23,20 +24,20 @@ async function addLoan(ctx) {
 
     // Insert a new todo
     await conn.execute(`
-      UPDATE loans SET returnTime='${returnTime}', returnState='${body.returnState}', loanReceiver_id=uuid_to_bin('${body.loanReceiver_id}') WHERE id=uuid_to_bin("${body.id}");`);
+      UPDATE loans SET returnTime='${returnTime}', returnState='${body.returnState}', loanReceiver_id=uuid_to_bin('${body.loanReceiver_id}') WHERE uuid = "${id}";`);
 
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id), returnTime, dueDate, returnTime, loansState, returnState, bin_to_uuid(device_id), bin_to_uuid(customer_id), bin_to_uuid(loanGiver_id), bin_to_uuid(loanReceiver_id)
+          SELECT uuid as id, returnTime, dueDate, returnTime, loansState, returnState, device_uuid as device_id, customer_uuid as customer_id, loanGiver_uuid as loanGiver_id, loanReceiver_uuid as loanReceiver_id
           FROM loans
-          WHERE id = uuid_to_bin("${body.id}");
+          WHERE uuid = "${id}";
         `);
 
     // Set the response header to 201 Created
     ctx.status = 201;
 
     // Set the Location header to point to the new resource
-    const newUrl = `${ctx.host}${Router.url(`${loansystemPath}/loans/:id`, { id: body.id })}`;
+    const newUrl = `${ctx.host}${Router.url(`${loansystemPath}/loans/:id`, { id: id })}`;
     ctx.set('Location', newUrl);
 
     // Return the new todo
@@ -47,4 +48,4 @@ async function addLoan(ctx) {
   }
 }
 
-module.exports = addLoan;
+module.exports = returnLoan;

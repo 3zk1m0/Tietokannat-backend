@@ -15,7 +15,7 @@ async function del(ctx) {
     const conn = await mysql.createConnection(connectionSettings);
     const [status] = await conn.execute(`
           DELETE FROM todos
-          WHERE id = :id;
+          WHERE uuid = :id;
         `, { id });
 
     if (status.affectedRows === 0) {

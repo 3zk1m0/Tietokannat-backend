@@ -6,33 +6,39 @@ import { loanBody } from '../../helpers/bodyCheckers';
 
 async function addLoan(ctx) {
   const body = ctx.request.body;
-  console.log(body);
+  //console.log(body);
 
   loanBody(ctx, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
 
-    const [device] = await conn.execute(`SELECT loantime FROM devices WHERE id = uuid_to_bin("${body.device_id}");`);
-    const [lastLoan] = await conn.execute(`SELECT returnState FROM loans Where device_id = uuid_to_bin("${body.device_id}") order by loaningTime DESC limit 1;`);
+    const [device] = await conn.execute(`SELECT loantime FROM devices WHERE uuid = "${body.device_id}";`);
+    const [lastLoan] = await conn.execute(`SELECT returnState FROM loans Where device_uuid = "${body.device_id}" order by loaningTime DESC limit 1;`);
     const now = new Date();
     const loaningTime = now.toISOString().slice(0, 19).replace('T', ' ');
     const dueDate = new Date(now.setDate(now.getDate() + device[0].loantime)).toISOString().split('T')[0];
 
-    if (lastLoan[0].returnState === null) {
-      ctx.throw(400, 'Device already loaned!');
+    let lastState = 'New';
+
+    if (typeof lastLoan[0] !== 'undefined') {
+      if (lastLoan[0].returnState === null) {
+        ctx.throw(400, 'Device already loaned!');
+      }
+      lastState = lastLoan[0].returnState;
     }
+
     // Insert a new todo
     const [status] = await conn.execute(`
       INSERT INTO loans (loaningTime, dueDate, loansState, device_id, customer_id, loanGiver_id)
-      VALUES ("${loaningTime}", "${dueDate}", "${lastLoan[0].returnState}", uuid_to_bin("${body.device_id}"), uuid_to_bin("${body.customer_id}"), uuid_to_bin("${body.loanGiver_id}"));`);
+      VALUES ("${loaningTime}", "${dueDate}", "${lastState}", uuid_to_bin("${body.device_id}"), uuid_to_bin("${body.customer_id}"), uuid_to_bin("${body.loanGiver_id}"));`);
 
     const [newLoan] = await conn.execute('SELECT bin_to_uuid(@last_uuid) as id;');
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id), loaningTime, dueDate, loansState, bin_to_uuid(device_id), bin_to_uuid(customer_id), bin_to_uuid(loanGiver_id)
+          SELECT uuid as id, loaningTime, dueDate, loansState, device_uuid as device_id, customer_uuid as customer_id, loanGiver_uuid as loanGiver_id
           FROM loans
-          WHERE id = uuid_to_bin("${newLoan[0].id}");
+          WHERE uuid = "${newLoan[0].id}";
         `);
 
     // Set the response header to 201 Created

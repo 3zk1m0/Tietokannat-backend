@@ -25,9 +25,9 @@ async function post(ctx) {
 
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT *
+          SELECT uuid as id, text, done
           FROM todos
-          WHERE id = :id;
+          WHERE uuid = :id;
         `, { id: insertId });
 
     // Set the response header to 201 Created

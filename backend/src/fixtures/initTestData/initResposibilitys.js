@@ -14,20 +14,18 @@ export default async () => {
   if (data[0].count === 0) {
     console.log('initResponsibilitys');
     const [devices] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, deviceName
+            SELECT uuid as id, deviceName
             FROM devices;
             `);
 
     const [admins] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, name
+            SELECT uuid as id, name
             FROM users
             WHERE role = 'admin';
             `);
 
     let randomAdmin1;
     let randomAdmin2;
-
-
 
     devices.forEach((element) => {
       randomAdmin1 = admins[Math.floor(Math.random() * admins.length)];

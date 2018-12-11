@@ -44,7 +44,7 @@ async function getAllUsers(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-        SELECT bin_to_uuid(id) as id, name, role, role, password, token 
+        SELECT uuid as id, name, role, username, password, token 
         FROM users
         ${orderBy}
       `);

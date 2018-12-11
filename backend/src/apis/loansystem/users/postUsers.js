@@ -20,9 +20,9 @@ async function postUsers(ctx) {
     const [newLoan] = await conn.execute('SELECT bin_to_uuid(@last_uuid) as id;');
     // Get the new todo
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id), name, role, username, password)
+          SELECT uuid as id, name, role, username, password)
           FROM users
-          WHERE id = uuid_to_bin('${newLoan[0].id}');
+          WHERE uuid = '${newLoan[0].id}';
         `);
 
     // Set the response header to 201 Created

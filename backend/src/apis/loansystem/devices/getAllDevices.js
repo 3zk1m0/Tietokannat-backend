@@ -45,7 +45,7 @@ async function getDevices(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-        SELECT bin_to_uuid(id) as id, deviceName, deviceInfo, loantime 
+        SELECT uuid as id, deviceName, deviceInfo, loantime 
         FROM devices
         ${orderBy}
       `);

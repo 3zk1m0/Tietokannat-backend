@@ -18,7 +18,7 @@ async function putDevices(ctx) {
     const [status] = await conn.execute(`
            UPDATE devices
            SET deviceName = '${body.deviceName}', deviceInfo = '${body.deviceInfo}', loantime = '${body.loantime}'
-           WHERE id = uuid_to_bin('${id}');
+           WHERE uuid = '${id}';
          `);
 
     let data;
@@ -29,15 +29,15 @@ async function putDevices(ctx) {
         VALUES ('${body.deviceName}', '${body.deviceInfo}', '${body.loantime}');`);
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, deviceName, deviceInfo, loantime
+            SELECT uuid as id, deviceName, deviceInfo, loantime
             FROM devices
             WHERE id = @last_uuid;`);
     } else {
       // Get the todo
       [data] = await conn.execute(`
-            SELECT bin_to_uuid(id) as id, deviceName, deviceInfo, loantime
+            SELECT uuid as id, deviceName, deviceInfo, loantime
             FROM devices
-            WHERE id = uuid_to_bin('${id}');`);
+            WHERE uuid = '${id}';`);
     }
     // console.log(data);
     // Return the resource

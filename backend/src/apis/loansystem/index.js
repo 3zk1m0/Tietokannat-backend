@@ -15,7 +15,7 @@ function addRoutes(app, koaBody) {
   usersRoutes(app, koaBody);
   responsibilityRoute(app, koaBody);
   app.post(`${loansystemPath}/addloan`, checkAccept, checkContent, koaBody, addLoan);
-  app.put(`${loansystemPath}/returnloan`, checkAccept, checkContent, koaBody, returnLoan);
+  app.put(`${loansystemPath}/returnloan/:id`, checkAccept, checkContent, koaBody, returnLoan);
 }
 
 module.exports = addRoutes;

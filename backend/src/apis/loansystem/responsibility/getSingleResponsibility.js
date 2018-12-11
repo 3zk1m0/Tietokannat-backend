@@ -13,9 +13,9 @@ async function getSingleDevices(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-          SELECT bin_to_uuid(id) as id, bin_to_uuid(user_id) as user_id, bin_to_uuid(device_id) as device_id
+          SELECT uuid as id, user_uuid as user_id, device_uuid as device_id
           FROM responsibility
-          WHERE id = uuid_to_bin('${id}');`);
+          WHERE uuid = '${id}';`);
 
     // Return the resource
     ctx.body = data[0];
