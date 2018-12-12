@@ -4,7 +4,7 @@ import { connectionSettings } from '../../settings';
 import { loansystemPath } from '../constants';
 import { returnBody } from '../../helpers/bodyCheckers';
 
-async function returnLoan(ctx) {
+export default async function returnLoan(ctx) {
   const { id } = ctx.params;
   const body = ctx.request.body;
   console.log(body);
@@ -47,5 +47,3 @@ async function returnLoan(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = returnLoan;

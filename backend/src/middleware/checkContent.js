@@ -1,6 +1,6 @@
 
 // Middleware for checking request body content
-const checkContent = async (ctx, next) => {
+export default async (ctx, next) => {
   console.log('checkContent');
   // Check that the request content type is 'application/json'
   if (!ctx.is('application/json')) {
@@ -9,5 +9,3 @@ const checkContent = async (ctx, next) => {
   // Move to next middleware
   await next();
 };
-
-module.exports = checkContent;

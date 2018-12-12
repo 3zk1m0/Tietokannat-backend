@@ -3,7 +3,7 @@ import { connectionSettings } from '../../../settings';
 import { putResponsibilityBody } from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
-async function putResponsibilitys(ctx) {
+export default async function putResponsibilitys(ctx) {
   const { id } = ctx.params;
   const body = ctx.request.body;
   console.log('.put id contains:', id);
@@ -47,5 +47,3 @@ async function putResponsibilitys(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = putResponsibilitys;

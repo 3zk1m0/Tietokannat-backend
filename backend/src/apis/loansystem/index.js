@@ -8,8 +8,7 @@ import returnLoan from './returnLoan';
 import { loansystemPath } from '../constants';
 import { checkAccept, checkContent } from '../../middleware';
 
-function addRoutes(app, koaBody) {
-  console.log(koaBody);
+export default function addRoutes(app, koaBody) {
   deviceRoutes(app, koaBody);
   loansRoutes(app, koaBody);
   usersRoutes(app, koaBody);
@@ -17,5 +16,3 @@ function addRoutes(app, koaBody) {
   app.post(`${loansystemPath}/addloan`, checkAccept, checkContent, koaBody, addLoan);
   app.put(`${loansystemPath}/returnloan/:id`, checkAccept, checkContent, koaBody, returnLoan);
 }
-
-module.exports = addRoutes;

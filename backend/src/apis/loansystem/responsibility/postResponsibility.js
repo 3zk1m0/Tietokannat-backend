@@ -4,7 +4,7 @@ import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
 import { postResponsibilityBody } from '../../../helpers/bodyCheckers';
 
-async function postResponsibility(ctx) {
+export default async function postResponsibility(ctx) {
   const body = ctx.request.body;
   console.log('.post text contains:', body);
 
@@ -38,5 +38,3 @@ async function postResponsibility(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = postResponsibility;

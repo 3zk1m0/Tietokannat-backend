@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
 
 // DELETE /resource/:id
-async function deleteResponsibility(ctx) {
+export default async function deleteResponsibility(ctx) {
   const { id } = ctx.params;
   console.log('.del id contains:', id);
 
@@ -28,5 +28,3 @@ async function deleteResponsibility(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = deleteResponsibility;

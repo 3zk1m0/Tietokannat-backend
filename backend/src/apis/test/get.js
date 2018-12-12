@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../settings';
 
 
-async function responseTime(ctx) {
+export default async function responseTime(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
@@ -23,5 +23,3 @@ async function responseTime(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = responseTime;

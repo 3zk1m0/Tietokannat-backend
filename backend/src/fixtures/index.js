@@ -1,10 +1,7 @@
 import initDB from './initDB';
 import initTestData from './initTestData';
 
-export {
+export default {
   initDB,
-};
-
-export {
   initTestData,
 };

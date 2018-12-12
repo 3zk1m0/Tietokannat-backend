@@ -4,15 +4,15 @@ import Router from 'koa-router';
 import KoaBody from 'koa-bodyparser';
 
 import { databaseReady } from './helpers';
-import { initDB, initTestData } from './fixtures';
+import fixtures from './fixtures';
 
 import addRoutes from './apis';
 
 // Initialize database
 (async () => {
   await databaseReady();
-  await initDB();
-  await initTestData();
+  await fixtures.initDB();
+  await fixtures.initTestData();
 })();
 
 // The port that this server will run on, defaults to 9000

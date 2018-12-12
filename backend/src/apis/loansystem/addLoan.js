@@ -4,7 +4,7 @@ import { connectionSettings } from '../../settings';
 import { loansystemPath } from '../constants';
 import { loanBody } from '../../helpers/bodyCheckers';
 
-async function addLoan(ctx) {
+export default async function addLoan(ctx) {
   const body = ctx.request.body;
   //console.log(body);
 
@@ -55,5 +55,3 @@ async function addLoan(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = addLoan;

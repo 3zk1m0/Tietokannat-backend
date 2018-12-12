@@ -4,7 +4,7 @@ import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
 import { postDeviceBody } from '../../../helpers/bodyCheckers';
 
-async function postDevices(ctx) {
+export default async function postDevices(ctx) {
   const body = ctx.request.body;
   console.log('.post text contains:', body);
 
@@ -38,5 +38,3 @@ async function postDevices(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = postDevices;

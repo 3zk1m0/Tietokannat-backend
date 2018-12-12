@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../settings';
 
 
-async function get(ctx) {
+export default async function get(ctx) {
   const { id } = ctx.params;
   console.log('.get id contains:', id);
 
@@ -26,5 +26,3 @@ async function get(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = get;

@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
 
 // DELETE /resource/:id
-async function getSingleLoans(ctx) {
+export default async function getSingleLoans(ctx) {
   const { id } = ctx.params;
   console.log('.get id contains:', id);
 
@@ -26,5 +26,3 @@ async function getSingleLoans(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = getSingleLoans;
