@@ -5,7 +5,7 @@ import { loansystemPath } from '../../constants';
 import { postLoanBody } from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
-async function postLoans(ctx) {
+export default async function postLoans(ctx) {
   const body = ctx.request.body;
   console.log('.post text contains:', body);
 
@@ -39,5 +39,3 @@ async function postLoans(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = postLoans;

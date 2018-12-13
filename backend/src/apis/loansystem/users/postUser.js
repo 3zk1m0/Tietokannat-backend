@@ -2,10 +2,10 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import { postUserBody } from '../../../helpers/bodyCheckers/postUserBody';
+import { postUserBody } from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
-async function postUsers(ctx) {
+export default async function postUsers(ctx) {
   const body = ctx.request.body;
   console.log('.post text contains:', body);
 
@@ -39,5 +39,3 @@ async function postUsers(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = postUsers;

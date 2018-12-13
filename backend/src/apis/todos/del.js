@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../settings';
 
 // DELETE /resource/:id
-async function del(ctx) {
+export default async function del(ctx) {
   const { id } = ctx.params;
   console.log('.del id contains:', id);
 
@@ -30,5 +30,3 @@ async function del(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = del;

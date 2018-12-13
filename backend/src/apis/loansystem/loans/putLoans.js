@@ -3,7 +3,7 @@ import { connectionSettings } from '../../../settings';
 import { putLoanBody } from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
-async function putLoans(ctx) {
+export default async function putLoans(ctx) {
   const { id } = ctx.params;
   const body = ctx.request.body;
   console.log('.put id contains:', id);
@@ -47,5 +47,3 @@ async function putLoans(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = putLoans;

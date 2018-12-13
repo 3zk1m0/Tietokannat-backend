@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings, todoPath } from '../../settings';
 
 // DELETE /resource/:id
-async function post(ctx) {
+export default async function post(ctx) {
   const { text } = ctx.request.body;
   console.log('.post text contains:', text);
 
@@ -44,5 +44,3 @@ async function post(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = post;

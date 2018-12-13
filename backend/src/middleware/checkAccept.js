@@ -1,6 +1,6 @@
 
 // Middleware for checking accept headers
-const checkAccept = async (ctx, next) => {
+export default async (ctx, next) => {
   console.log('checkAccept');
   // If client does not accept 'application/json' as response type, throw '406 Not Acceptable'
   if (!ctx.accepts('application/json')) {
@@ -11,6 +11,3 @@ const checkAccept = async (ctx, next) => {
   // Move to next middleware
   await next();
 };
-
-
-module.exports = checkAccept;

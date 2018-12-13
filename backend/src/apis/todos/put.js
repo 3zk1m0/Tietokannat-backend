@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../settings';
 
 // DELETE /resource/:id
-async function put(ctx) {
+export default async function put(ctx) {
   const { id } = ctx.params;
   const { text, done } = ctx.request.body;
   console.log('.put id contains:', id);
@@ -54,5 +54,3 @@ async function put(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = put;

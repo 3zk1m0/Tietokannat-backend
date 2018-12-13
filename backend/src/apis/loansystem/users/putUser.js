@@ -3,7 +3,7 @@ import { connectionSettings } from '../../../settings';
 import { putUserBody } from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
-async function putUsers(ctx) {
+export default async function putUsers(ctx) {
   const { id } = ctx.params;
   const body = ctx.request.body;
   console.log('.put id contains:', id);
@@ -47,5 +47,3 @@ async function putUsers(ctx) {
     ctx.throw(500, error);
   }
 }
-
-module.exports = putUsers;
