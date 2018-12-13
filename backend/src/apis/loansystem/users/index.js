@@ -1,7 +1,7 @@
-import delRoute from './deleteUser';
+import delRoute from './deleteUsers';
 import getAllRoute from './getAllUsers';
 import getSingleRoute from './getSingleUser';
-import postRoute from './postUser';
+import postRoute from './postUsers';
 import putRoute from './putUser';
 import patchRoute from './patchUsers';
 
