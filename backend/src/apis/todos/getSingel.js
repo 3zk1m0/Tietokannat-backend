@@ -7,7 +7,7 @@ export default async function get(ctx) {
   const { id } = ctx.params;
   console.log('.get id contains:', id);
 
-  if (typeof id === 'string') {
+  if (typeof id !== 'string') {
     ctx.throw(400, 'id must be an integer');
   }
 

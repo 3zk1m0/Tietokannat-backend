@@ -3,7 +3,7 @@ import { connectionSettings } from '../../../settings';
 import operatePatch from '../../../helpers/patchOperator';
 
 // DELETE /resource/:id
-export default async function patchUser(ctx) {
+export default async function patchDevices(ctx) {
   const { id } = ctx.params;
   const body = ctx.request.body;
   console.log('.put id contains:', id);
@@ -14,18 +14,18 @@ export default async function patchUser(ctx) {
 
     const allowed = {
       op: ['replace'],
-      path: ['/id', '/name', '/role', '/username', '/password'],
-      value: ['string', 'string', 'string', 'string', 'string'],
+      path: ['/id', '/deviceName', '/deviceInfo', '/loantime'],
+      value: ['string', 'string', 'number'],
     };
 
     // Update the todo
     const [data] = await conn.execute(`
            SELECT *
-           FROM users
+           FROM loans
            WHERE uuid = :id;
          `, { id });
 
-    console.log(data[0]);
+
     if (typeof data[0] === 'undefined') {
       ctx.throw(404, 'id not found');
     }
@@ -33,8 +33,8 @@ export default async function patchUser(ctx) {
     data[0] = operatePatch(ctx, body, data[0], allowed);
 
     await conn.execute(`
-           UPDATE users
-           SET id = uuid_to_bin('${data[0].uuid}'), name = '${data[0].name}', role = '${data[0].role}', username = '${data[0].username}', password = '${data[0].password}'
+           UPDATE loans
+           SET id = uuid_to_bin('${data[0].uuid}'), deviceName = '${body.deviceName}', deviceInfo = '${body.deviceInfo}', loantime = '${body.loantime}'
            WHERE uuid = '${id}';
          `);
 
