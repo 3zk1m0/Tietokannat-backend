@@ -3,6 +3,7 @@ import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
 import { postUserBody } from '../../../helpers/bodyCheckers';
+import { hashPassword } from '../../../helpers';
 
 // DELETE /resource/:id
 export default async function postUsers(ctx) {
@@ -15,7 +16,7 @@ export default async function postUsers(ctx) {
     const conn = await mysql.createConnection(connectionSettings);
     await conn.execute(`
       INSERT INTO users (name, role, username, password)
-      VALUES ('${body.name}', '${body.role}', '${body.username}', '${body.password}');`);
+      VALUES ('${body.name}', '${body.role}', '${body.username}', '${hashPassword(body.password)}');`);
 
     const [newLoan] = await conn.execute('SELECT bin_to_uuid(@last_uuid) as id;');
     // Get the new todo

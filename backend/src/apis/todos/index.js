@@ -8,15 +8,15 @@ import putRoute from './put';
 import patchRoute from './patch';
 
 import { todoPath, todosPath } from '../constants';
-import { checkAccept, checkContent } from '../../middleware';
+import { checkAccept, checkContent, jwt } from '../../middleware';
 
 
 export default function addRoutes(app, koaBody) {
   // console.log(apiPath);
-  app.del(todoPath, delRoute);
-  app.get(todosPath, checkAccept, getAllRoute);
-  app.get(todoPath, checkAccept, getSingleRoute);
-  app.post(todosPath, checkAccept, checkContent, koaBody, postRoute);
-  app.put(todoPath, checkAccept, checkContent, koaBody, putRoute);
-  app.patch(todoPath, checkAccept, checkContent, koaBody, patchRoute);
+  app.del(todoPath, delRoute, jwt);
+  app.get(todosPath, checkAccept, jwt, getAllRoute);
+  app.get(todoPath, checkAccept, jwt, getSingleRoute);
+  app.post(todosPath, checkAccept, checkContent, jwt, koaBody, postRoute);
+  app.put(todoPath, checkAccept, checkContent, jwt, koaBody, putRoute);
+  app.patch(todoPath, checkAccept, checkContent, jwt, koaBody, patchRoute);
 }

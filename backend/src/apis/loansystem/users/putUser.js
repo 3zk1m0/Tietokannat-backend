@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
 import { putUserBody } from '../../../helpers/bodyCheckers';
+import { hashPassword } from '../../../helpers';
 
 // DELETE /resource/:id
 export default async function putUsers(ctx) {
@@ -17,7 +18,7 @@ export default async function putUsers(ctx) {
     // Update the todo
     const [status] = await conn.execute(`
            UPDATE users
-           SET name = '${body.name}', role = '${body.role}', username = '${body.username}', password = '${body.password}'
+           SET name = '${body.name}', role = '${body.role}', username = '${body.username}', password = '${hashPassword(body.password)}'
            WHERE uuid = '${id}';
          `);
 
@@ -27,7 +28,7 @@ export default async function putUsers(ctx) {
       // If the resource does not already exist, create it
       await conn.execute(`
         INSERT INTO users (name, role, username, password)
-        VALUES ('${body.name}', '${body.role}', '${body.username}', '${body.password}');`);
+        VALUES ('${body.name}', '${body.role}', '${body.username}', '${hashPassword(body.password)}');`);
       // Get the todo
       [data] = await conn.execute(`
             SELECT uuid as id, name, role, username, password
