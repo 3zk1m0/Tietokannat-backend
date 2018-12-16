@@ -12,9 +12,9 @@ export default async function post(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-          SELECT uuid as id, role, username, password
+          SELECT uuid as id, role, email, password
           FROM users
-          WHERE username = ${body.username};
+          WHERE email = '${body.email}';
         `);
 
     // Set the Location header to point to the new resource
@@ -22,7 +22,7 @@ export default async function post(ctx) {
     if (bcrypt.compareSync(body.password, data[0].password)) {
       ctx.status = 200;
       ctx.body = {
-        token: jwt.sign({ role: data[0].role }, 'A very secret key', { expiresIn: 86400 }), // expires in 24 hours Should be the same secret key as the one used is ./jwt.js
+        token: jwt.sign({ id: data[0].id }, 'A very secret key', { expiresIn: 86400 }), // expires in 24 hours Should be the same secret key as the one used is ./jwt.js
         message: 'Successfully logged in!',
       };
     } else {

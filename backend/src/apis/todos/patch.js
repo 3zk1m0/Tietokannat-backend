@@ -36,11 +36,11 @@ export default async function patch(ctx) {
 
     await conn.execute(`
            UPDATE todos
-           SET id = uuid_to_bin('${data[0].id}'), text = '${data[0].text}', done = ${Number(data[0].done)}
+           SET id = uuid_to_bin('${data[0].uuid}'), text = '${data[0].text}', done = ${Number(data[0].done)}
            WHERE uuid = '${data[0].uuid}';
          `);
 
-    delete data[0].uuid;
+    delete data[0].id;
     // Return the resource
     ctx.body = data[0];
   } catch (error) {

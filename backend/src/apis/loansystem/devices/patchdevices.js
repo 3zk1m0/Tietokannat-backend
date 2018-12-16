@@ -21,7 +21,7 @@ export default async function patchDevices(ctx) {
     // Update the todo
     const [data] = await conn.execute(`
            SELECT *
-           FROM loans
+           FROM devices
            WHERE uuid = :id;
          `, { id });
 
@@ -29,12 +29,10 @@ export default async function patchDevices(ctx) {
     if (typeof data[0] === 'undefined') {
       ctx.throw(404, 'id not found');
     }
-
     data[0] = operatePatch(ctx, body, data[0], allowed);
-
     await conn.execute(`
-           UPDATE loans
-           SET id = uuid_to_bin('${data[0].uuid}'), deviceName = '${body.deviceName}', deviceInfo = '${body.deviceInfo}', loantime = '${body.loantime}'
+           UPDATE devices
+           SET id = uuid_to_bin('${data[0].uuid}'), deviceName = '${data[0].deviceName}', deviceInfo = '${data[0].deviceInfo}', loantime = ${data[0].loantime}
            WHERE uuid = '${id}';
          `);
 

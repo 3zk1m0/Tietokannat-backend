@@ -8,7 +8,11 @@ import putRoute from './put';
 import patchRoute from './patch';
 
 import { todoPath, todosPath } from '../constants';
-import { checkAccept, checkContent, jwt } from '../../middleware';
+import {
+  checkAccept,
+  checkContent,
+  jwt,
+} from '../../middleware';
 
 
 export default function addRoutes(app, koaBody) {

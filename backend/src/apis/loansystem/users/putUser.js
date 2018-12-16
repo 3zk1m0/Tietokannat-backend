@@ -18,7 +18,7 @@ export default async function putUsers(ctx) {
     // Update the todo
     const [status] = await conn.execute(`
            UPDATE users
-           SET name = '${body.name}', role = '${body.role}', username = '${body.username}', password = '${hashPassword(body.password)}'
+           SET name = '${body.name}', role = '${body.role}', email = '${body.email}', password = '${hashPassword(body.password)}'
            WHERE uuid = '${id}';
          `);
 
@@ -27,17 +27,17 @@ export default async function putUsers(ctx) {
     if (status.affectedRows === 0) {
       // If the resource does not already exist, create it
       await conn.execute(`
-        INSERT INTO users (name, role, username, password)
-        VALUES ('${body.name}', '${body.role}', '${body.username}', '${hashPassword(body.password)}');`);
+        INSERT INTO users (name, role, email, password)
+        VALUES ('${body.name}', '${body.role}', '${body.email}', '${hashPassword(body.password)}');`);
       // Get the todo
       [data] = await conn.execute(`
-            SELECT uuid as id, name, role, username, password
+            SELECT uuid as id, name, role, email
             FROM users
             WHERE id = @last_uuid;`);
     } else {
       // Get the todo
       [data] = await conn.execute(`
-            SELECT uuid as id, name, role, username, password
+            SELECT uuid as id, name, role, email
             FROM users
             WHERE uuid = '${id}';`);
     }

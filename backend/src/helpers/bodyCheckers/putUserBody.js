@@ -6,8 +6,8 @@ export default function putUserBody(ctx, id, body) {
     ctx.throw(400, 'body.name required');
   } else if (typeof body.role === 'undefined') {
     ctx.throw(400, 'body.role required');
-  } else if (typeof body.username === 'undefined') {
-    ctx.throw(400, 'body.username required');
+  } else if (typeof body.email === 'undefined') {
+    ctx.throw(400, 'body.email required');
   } else if (typeof body.password === 'undefined') {
     ctx.throw(400, 'body.password required');
   } else if (typeof id !== 'string') {
@@ -16,8 +16,8 @@ export default function putUserBody(ctx, id, body) {
     ctx.throw(400, 'body.name must be string');
   } else if (typeof body.role !== 'string') {
     ctx.throw(400, 'body.role must be string');
-  } else if (typeof body.username !== 'string') {
-    ctx.throw(400, 'body.username must be string');
+  } else if (typeof body.email !== 'string') {
+    ctx.throw(400, 'body.email must be string');
   } else if (typeof body.password !== 'string') {
     ctx.throw(400, 'body.password must be string');
   }

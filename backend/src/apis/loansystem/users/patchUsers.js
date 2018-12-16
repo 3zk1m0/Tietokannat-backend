@@ -15,7 +15,7 @@ export default async function patchUser(ctx) {
 
     const allowed = {
       op: ['replace'],
-      path: ['/id', '/name', '/role', '/username', '/password'],
+      path: ['/id', '/name', '/role', '/email', '/password'],
       value: ['string', 'string', 'string', 'string', 'string'],
     };
 
@@ -38,7 +38,7 @@ export default async function patchUser(ctx) {
 
     await conn.execute(`
            UPDATE users
-           SET id = uuid_to_bin('${data[0].uuid}'), name = '${data[0].name}', role = '${data[0].role}', username = '${data[0].username}', password = '${password}'
+           SET id = uuid_to_bin('${data[0].uuid}'), name = '${data[0].name}', role = '${data[0].role}', email = '${data[0].email}', password = '${password}'
            WHERE uuid = '${id}';
          `);
 

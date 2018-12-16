@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
 
 // DELETE /resource/:id
-export default async function getSingleUsers(ctx) {
+export default async function getSingleDevices(ctx) {
   const { id } = ctx.params;
   console.log('.get id contains:', id);
 
@@ -13,12 +13,19 @@ export default async function getSingleUsers(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-          SELECT uuid as id, name, role, email
-          FROM users
-          WHERE uuid = '${id}';`);
+          SELECT returnState
+          FROM db_1.loans
+          WHERE device_uuid = '${id}'
+          order by loaningTime DESC
+          LIMIT 1;`);
+
+    if (data[0].returnState === null) {
+      ctx.body = { status: 'In Loan' };
+    } else {
+      ctx.body = { status: 'free' };
+    }
 
     // Return the resource
-    ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);
     ctx.throw(500, error);
