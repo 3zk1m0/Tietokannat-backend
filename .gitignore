@@ -13,8 +13,19 @@ build/
 /yarn.lock
 /package.json
 
+<<<<<<< HEAD
 # Mysql data
 sql-data/
 
 #visual studio settings
 .vscode/
+=======
+#mysql data
+sql-data/
+
+#vs code settings
+.vscode/
+
+#enviromentals
+*.env
+>>>>>>> authentication
