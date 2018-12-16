@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
-import { putLoanBody } from '../../../helpers/bodyCheckers';
+import putLoanBody from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
 export default async function putLoans(ctx) {

@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
-import { putUserBody } from '../../../helpers/bodyCheckers';
-import { hashPassword } from '../../../helpers';
+import putUserBody from '../../../helpers/bodyCheckers';
+import hashPassword from '../../../helpers';
 
 // DELETE /resource/:id
 export default async function putUsers(ctx) {

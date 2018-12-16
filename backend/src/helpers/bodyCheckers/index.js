@@ -9,7 +9,7 @@ import putLoanBody from './putLoanBody';
 import postResponsibilityBody from './postResponsibilityBody';
 import putResponsibilityBody from './putResponsibilityBody';
 
-export {
+export default {
   loanBody,
   returnBody,
   postUserBody,

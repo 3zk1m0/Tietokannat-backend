@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
 import operatePatch from '../../../helpers/patchOperator';
-import { hashPassword } from '../../../helpers';
+import hashPassword from '../../../helpers';
 
 // DELETE /resource/:id
 export default async function patchUser(ctx) {

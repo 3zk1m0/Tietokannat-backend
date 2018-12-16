@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import { postResponsibilityBody } from '../../../helpers/bodyCheckers';
+import postResponsibilityBody from '../../../helpers/bodyCheckers';
 
 export default async function postResponsibility(ctx) {
   const body = ctx.request.body;

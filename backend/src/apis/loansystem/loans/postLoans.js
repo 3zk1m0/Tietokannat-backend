@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import { postLoanBody } from '../../../helpers/bodyCheckers';
+import postLoanBody from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
 export default async function postLoans(ctx) {

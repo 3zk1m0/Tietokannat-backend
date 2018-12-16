@@ -3,7 +3,6 @@ import { connectionSettings } from '../../settings';
 
 
 export default async () => {
-  
   const conn = await mysql.createConnection(connectionSettings);
 
   const [data] = await conn.execute(`

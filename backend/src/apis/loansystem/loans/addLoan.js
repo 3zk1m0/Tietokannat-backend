@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import { loanBody } from '../../../helpers/bodyCheckers';
+import loanBody from '../../../helpers/bodyCheckers';
 
 export default async function addLoan(ctx) {
   const body = ctx.request.body;
@@ -29,7 +29,7 @@ export default async function addLoan(ctx) {
     }
 
     // Insert a new todo
-    const [status] = await conn.execute(`
+    await conn.execute(`
       INSERT INTO loans (loaningTime, dueDate, loansState, device_id, customer_id, loanGiver_id)
       VALUES ("${loaningTime}", "${dueDate}", "${lastState}", uuid_to_bin("${body.device_id}"), uuid_to_bin("${body.customer_id}"), uuid_to_bin("${body.loanGiver_id}"));`);
 

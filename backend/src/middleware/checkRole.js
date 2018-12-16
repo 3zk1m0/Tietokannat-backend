@@ -15,7 +15,6 @@ export default async (ctx, next) => {
         FROM users
         WHERE uuid = '${body.id}'
       `);
-    //console.log(data[0].role);
     if (data[0].role !== 'admin') {
       ctx.throw(400, 'No authorization');
     }

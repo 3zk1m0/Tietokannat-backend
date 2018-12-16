@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
-import { putDeviceBody } from '../../../helpers/bodyCheckers';
+import putDeviceBody from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
 export default async function putDevices(ctx) {
