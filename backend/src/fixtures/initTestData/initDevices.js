@@ -26,7 +26,6 @@ export default async () => {
     let device = '';
     for (let i = 0; i < count; i += 1) {
       device = deviceList[Math.floor(Math.random() * deviceList.length)];
-      //console.log(device);
       conn.execute(`
             INSERT INTO devices (deviceName, deviceInfo, loantime)
             VALUES ('${device.name}', '${device.name}', '${device.loantime}');

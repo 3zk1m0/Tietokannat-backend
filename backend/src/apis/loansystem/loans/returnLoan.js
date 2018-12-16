@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import { returnBody } from '../../../helpers/bodyCheckers';
+import returnBody from '../../../helpers/bodyCheckers';
 
 export default async function returnLoan(ctx) {
   const { id } = ctx.params;
@@ -37,7 +37,7 @@ export default async function returnLoan(ctx) {
     ctx.status = 201;
 
     // Set the Location header to point to the new resource
-    const newUrl = `${ctx.host}${Router.url(`${loansystemPath}/loans/:id`, { id: id })}`;
+    const newUrl = `${ctx.host}${Router.url(`${loansystemPath}/loans/${id}`)}`;
     ctx.set('Location', newUrl);
 
     // Return the new todo

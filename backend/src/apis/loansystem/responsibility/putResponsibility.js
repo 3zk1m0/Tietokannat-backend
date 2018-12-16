@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
-import { putResponsibilityBody } from '../../../helpers/bodyCheckers';
+import putResponsibilityBody from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
 export default async function putResponsibilitys(ctx) {

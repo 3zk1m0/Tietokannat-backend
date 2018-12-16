@@ -3,7 +3,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import KoaBody from 'koa-bodyparser';
 
-import { databaseReady } from './helpers';
+import databaseReady from './helpers';
 import fixtures from './fixtures';
 
 import addRoutes from './apis';

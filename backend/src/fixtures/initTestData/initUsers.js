@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import faker from 'faker';
 import { connectionSettings } from '../../settings';
-import { hashPassword } from '../../helpers';
+import hashPassword from '../../helpers';
 
 const count = 20;
 
