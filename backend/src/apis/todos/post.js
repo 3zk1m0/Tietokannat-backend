@@ -1,6 +1,7 @@
 import Router from 'koa-router';
 import mysql from 'mysql2/promise';
-import { connectionSettings, todoPath } from '../../settings';
+import { connectionSettings } from '../../settings';
+import { todoPath } from '../constants';
 
 // DELETE /resource/:id
 export default async function post(ctx) {
@@ -17,24 +18,29 @@ export default async function post(ctx) {
     const conn = await mysql.createConnection(connectionSettings);
 
     // Insert a new todo
-    const [status] = await conn.execute(`
+    await conn.execute(`
           INSERT INTO todos (text)
           VALUES (:text);
         `, { text });
-    const { insertId } = status;
+
+    const [lastid] = await conn.execute(`
+    SELECT uuid as id
+          FROM todos
+          WHERE id = @last_uuid;`);
+    console.log(lastid);
 
     // Get the new todo
     const [data] = await conn.execute(`
           SELECT uuid as id, text, done
           FROM todos
-          WHERE uuid = :id;
-        `, { id: insertId });
+          WHERE uuid = '${lastid[0].id}';
+        `);
 
     // Set the response header to 201 Created
     ctx.status = 201;
 
     // Set the Location header to point to the new resource
-    const newUrl = `${ctx.host}${Router.url(todoPath, { id: insertId })}`;
+    const newUrl = `${ctx.host}${Router.url(todoPath, { id: lastid[0].id })}`;
     ctx.set('Location', newUrl);
 
     // Return the new todo

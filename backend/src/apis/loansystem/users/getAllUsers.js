@@ -8,12 +8,12 @@ export default async function getAllUsers(ctx) {
   const url = Url.parse(ctx.url, true);
   const { sort } = url.query;
 
-  const orderBy = parseSortQuery({ urlSortQuery: sort, whitelist: ['id', 'text', 'done'] });
+  const orderBy = parseSortQuery({ urlSortQuery: sort, whitelist: ['id', 'name', 'role', 'email'] });
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-        SELECT uuid as id, name, role, username, password, token 
+        SELECT uuid as id, name, role, email
         FROM users
         ${orderBy}
       `);

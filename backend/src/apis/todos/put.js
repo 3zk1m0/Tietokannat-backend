@@ -10,8 +10,8 @@ export default async function put(ctx) {
   console.log('.put text contains:', text);
   console.log('.put done contains:', done);
 
-  if (isNaN(id) || id.includes('.')) {
-    ctx.throw(400, 'id must be an integer');
+  if (typeof id !== 'string') {
+    ctx.throw(400, 'id must be an string');
   } else if (typeof text === 'undefined') {
     ctx.throw(400, 'body.text is required');
   } else if (typeof text !== 'string') {

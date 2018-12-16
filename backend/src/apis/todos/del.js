@@ -7,16 +7,16 @@ export default async function del(ctx) {
   const { id } = ctx.params;
   console.log('.del id contains:', id);
 
-  if (isNaN(id) || id.includes('.')) {
-    ctx.throw(400, 'id must be an integer');
+  if (typeof id !== 'string') {
+    ctx.throw(400, 'id must be an string');
   }
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [status] = await conn.execute(`
           DELETE FROM todos
-          WHERE uuid = :id;
-        `, { id });
+          WHERE uuid = '${id}';
+        `);
 
     if (status.affectedRows === 0) {
       // The row did not exist, return '404 Not  found'

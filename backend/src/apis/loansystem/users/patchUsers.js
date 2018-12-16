@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
 import operatePatch from '../../../helpers/patchOperator';
+import { hashPassword } from '../../../helpers';
 
 // DELETE /resource/:id
 export default async function patchUser(ctx) {
@@ -14,7 +15,7 @@ export default async function patchUser(ctx) {
 
     const allowed = {
       op: ['replace'],
-      path: ['/id', '/name', '/role', '/username', '/password'],
+      path: ['/id', '/name', '/role', '/email', '/password'],
       value: ['string', 'string', 'string', 'string', 'string'],
     };
 
@@ -25,16 +26,19 @@ export default async function patchUser(ctx) {
            WHERE uuid = :id;
          `, { id });
 
-    console.log(data[0]);
+    let password = data[0].password;
     if (typeof data[0] === 'undefined') {
       ctx.throw(404, 'id not found');
     }
 
     data[0] = operatePatch(ctx, body, data[0], allowed);
+    if (password !== data[0].password) {
+      password = hashPassword(data[0].password);
+    }
 
     await conn.execute(`
            UPDATE users
-           SET id = uuid_to_bin('${data[0].uuid}'), name = '${data[0].name}', role = '${data[0].role}', username = '${data[0].username}', password = '${data[0].password}'
+           SET id = uuid_to_bin('${data[0].uuid}'), name = '${data[0].name}', role = '${data[0].role}', email = '${data[0].email}', password = '${password}'
            WHERE uuid = '${id}';
          `);
 

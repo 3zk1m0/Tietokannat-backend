@@ -7,7 +7,7 @@ export default async function responseTime(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-        SELECT *
+        SELECT uuid, text, done
         FROM todos
         `);
 
