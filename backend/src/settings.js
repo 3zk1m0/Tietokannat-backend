@@ -1,5 +1,5 @@
 // Define Mysql connection
-export const connectionSettingsOff = {
+export const connectionSettings = {
   host: 'db',
   user: 'root',
   database: 'db_1',
@@ -7,7 +7,7 @@ export const connectionSettingsOff = {
   namedPlaceholders: true,
   multipleStatements: true,
 };
-export const connectionSettings = {
+export const connectionSettingsOff = {
   host: 'localhost',
   user: 'root',
   database: 'db_1',
