@@ -17,6 +17,7 @@ module.exports = {
       'prefer-destructuring': 0,
       'import/prefer-default-export': 0,
       "linebreak-style": 0,
+      "import/no-unresolved": "off",
     },
   };
   

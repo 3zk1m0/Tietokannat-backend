@@ -10,7 +10,7 @@ export default async function postLoans(ctx) {
   console.log('.post text contains:', body);
 
   bodyChecker.postLoanBody(ctx, body);
-  
+
   try {
     const conn = await mysql.createConnection(connectionSettings);
     await conn.execute(`
