@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
-import putResponsibilityBody from '../../../helpers/bodyCheckers';
+import bodyChecker from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
 export default async function putResponsibilitys(ctx) {
@@ -9,7 +9,7 @@ export default async function putResponsibilitys(ctx) {
   console.log('.put id contains:', id);
   console.log('.put body contains:', body);
 
-  putResponsibilityBody(ctx, id, body);
+  bodyChecker.putResponsibilityBody(ctx, id, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
@@ -41,6 +41,7 @@ export default async function putResponsibilitys(ctx) {
     }
     // console.log(data);
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

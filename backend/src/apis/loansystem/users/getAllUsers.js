@@ -7,7 +7,6 @@ import parseSortQuery from '../../../helpers/parseSortQuery';
 export default async function getAllUsers(ctx) {
   const url = Url.parse(ctx.url, true);
   const { sort } = url.query;
-
   const orderBy = parseSortQuery({ urlSortQuery: sort, whitelist: ['id', 'name', 'role', 'email'] });
 
   try {
@@ -19,6 +18,7 @@ export default async function getAllUsers(ctx) {
       `);
 
     // Return all todos
+    conn.end();
     ctx.body = data;
   } catch (error) {
     console.error('Error occurred:', error);

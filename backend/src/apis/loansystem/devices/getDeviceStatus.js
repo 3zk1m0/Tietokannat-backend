@@ -18,7 +18,7 @@ export default async function getSingleDevices(ctx) {
           WHERE device_uuid = '${id}'
           order by loaningTime DESC
           LIMIT 1;`);
-
+    conn.end();
     if (data[0].returnState === null) {
       ctx.body = { status: 'In Loan' };
     } else {

@@ -15,7 +15,7 @@ export default async function deleteResponsibility(ctx) {
     const [status] = await conn.execute(`
           DELETE FROM responsibility
           WHERE uuid = '${id}';`);
-
+    conn.end();
     if (status.affectedRows === 0) {
       // The row did not exist, return '404 Not  found'
       ctx.status = 404;

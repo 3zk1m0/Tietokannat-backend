@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
 
 
-export default async (conn, date, device, user, adminLoaner, adminReturned) => {
+export default async (conn, date, device, user, adminLoaner) => {
   const loan = {
     loaningTime: date.toISOString().split('T')[0],
     dueDate: new Date(date.setDate(date.getDate() + device.loantime)).toISOString().split('T')[0],

@@ -1,5 +1,6 @@
 
 export default function postLoanBody(ctx, body) {
+  console.log(body);
   if (typeof body.loaningTime === 'undefined') {
     ctx.throw(400, 'body.loaningTime required');
   } else if (typeof body.dueDate === 'undefined') {

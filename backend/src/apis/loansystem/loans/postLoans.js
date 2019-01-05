@@ -2,15 +2,15 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import postLoanBody from '../../../helpers/bodyCheckers';
+import bodyChecker from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
 export default async function postLoans(ctx) {
   const body = ctx.request.body;
   console.log('.post text contains:', body);
 
-  postLoanBody(ctx, body);
-
+  bodyChecker.postLoanBody(ctx, body);
+  
   try {
     const conn = await mysql.createConnection(connectionSettings);
     await conn.execute(`
@@ -33,6 +33,7 @@ export default async function postLoans(ctx) {
     ctx.set('Location', newUrl);
 
     // Return the new todo
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

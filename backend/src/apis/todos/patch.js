@@ -42,6 +42,7 @@ export default async function patch(ctx) {
 
     delete data[0].id;
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

@@ -46,6 +46,7 @@ export default async function patchResponsibility(ctx) {
     delete data[0].user_uuid;
 
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

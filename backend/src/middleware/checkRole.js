@@ -15,6 +15,11 @@ export default async (ctx, next) => {
         FROM users
         WHERE uuid = '${body.id}'
       `);
+
+    if (typeof data[0] === 'undefined') {
+      ctx.throw(400, 'No authorization');
+    }
+
     if (data[0].role !== 'admin') {
       ctx.throw(400, 'No authorization');
     }

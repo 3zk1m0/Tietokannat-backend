@@ -5,6 +5,7 @@ import postRoute from './postUsers';
 import putRoute from './putUser';
 import patchRoute from './patchUsers';
 import getSelfRoute from './getSelf';
+import patchSelfRoute from './patchSelf';
 
 import { loansystemPath } from '../../constants';
 import {
@@ -24,4 +25,5 @@ export default function addRoutes(app, koaBody) {
   app.put(`${loansystemPath}/users/:id`, checkAccept, jwt, checkRole, checkContent, koaBody, putRoute);
   app.patch(`${loansystemPath}/users/:id`, checkAccept, jwt, checkRole, checkContent, koaBody, patchRoute);
   app.get(`${loansystemPath}/ownuser`, checkAccept, jwt, getSelfRoute);
+  app.patch(`${loansystemPath}/ownuser`, checkAccept, jwt, checkContent, koaBody, patchSelfRoute);
 }

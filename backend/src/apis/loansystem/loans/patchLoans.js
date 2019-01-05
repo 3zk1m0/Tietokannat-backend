@@ -10,11 +10,11 @@ export default async function patchLoans(ctx) {
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
-
+    // console.log('testing');
     const allowed = {
       op: ['replace'],
       path: ['/id', '/loaningTime', '/dueDate', '/returnTime', '/loansState', '/returnState', '/device_id', '/customer_id', '/loanGiver_id', '/loanReceiver_id'],
-      value: ['string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string'],
+      value: ['string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string'],
     };
     const [data] = await conn.execute(`SELECT * FROM loans WHERE uuid = '${id}';`);
 
@@ -25,7 +25,7 @@ export default async function patchLoans(ctx) {
     if (typeof data[0] === 'undefined') { ctx.throw(404, 'id not found'); }
 
     data[0] = operatePatch(ctx, body, data[0], allowed);
-    console.log(data[0]);
+    // console.log(data[0]);
     if (data[0].loanReceiver_uuid === null) {
       await conn.execute(`
         UPDATE loans
@@ -50,6 +50,7 @@ export default async function patchLoans(ctx) {
     delete data[0].loanGiver_uuid;
     delete data[0].loanReceiver_uuid;
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

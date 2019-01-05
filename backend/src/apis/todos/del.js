@@ -17,7 +17,7 @@ export default async function del(ctx) {
           DELETE FROM todos
           WHERE uuid = '${id}';
         `);
-
+    conn.end();
     if (status.affectedRows === 0) {
       // The row did not exist, return '404 Not  found'
       ctx.status = 404;

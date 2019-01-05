@@ -44,6 +44,7 @@ export default async function post(ctx) {
     ctx.set('Location', newUrl);
 
     // Return the new todo
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

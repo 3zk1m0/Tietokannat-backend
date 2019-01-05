@@ -20,6 +20,7 @@ export default async function getDevices(ctx) {
       `);
 
     // Return all todos
+    conn.end();
     ctx.body = data;
   } catch (error) {
     console.error('Error occurred:', error);

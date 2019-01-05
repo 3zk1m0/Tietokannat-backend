@@ -5,6 +5,7 @@ export const connectionSettingsOff = {
   database: 'db_1',
   password: 'db_rootpass',
   namedPlaceholders: true,
+  multipleStatements: true,
 };
 export const connectionSettings = {
   host: 'localhost',
@@ -12,4 +13,5 @@ export const connectionSettings = {
   database: 'db_1',
   password: 'db_rootpass',
   namedPlaceholders: true,
+  multipleStatements: true,
 };

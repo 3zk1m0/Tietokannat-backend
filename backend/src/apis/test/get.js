@@ -17,6 +17,7 @@ export default async function responseTime(ctx) {
     ctx.type = 'application/json; charset=utf-8';
 
     // Add stuff to response body
+    conn.end();
     ctx.body = { greeting: 'Hello world!', data };
   } catch (error) {
     console.error('Error occurred:', error);

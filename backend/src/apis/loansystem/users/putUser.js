@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
-import putUserBody from '../../../helpers/bodyCheckers';
-import hashPassword from '../../../helpers';
+import bodyChecker from '../../../helpers/bodyCheckers';
+import hashPassword from '../../../helpers/hashPassword';
 
 // DELETE /resource/:id
 export default async function putUsers(ctx) {
@@ -10,7 +10,7 @@ export default async function putUsers(ctx) {
   console.log('.put id contains:', id);
   console.log('.put body contains:', body);
 
-  putUserBody(ctx, id, body);
+  bodyChecker.putUserBody(ctx, id, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
@@ -42,6 +42,7 @@ export default async function putUsers(ctx) {
             WHERE uuid = '${id}';`);
     }
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

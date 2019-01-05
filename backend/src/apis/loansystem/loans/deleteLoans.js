@@ -18,13 +18,16 @@ export default async function deleteLoans(ctx) {
 
     if (status.affectedRows === 0) {
       // The row did not exist, return '404 Not  found'
+      conn.end();
       ctx.status = 404;
     } else {
       // Return '204 No Content' status code for successful delete
+      conn.end();
       ctx.status = 204;
     }
   } catch (error) {
     console.error('Error occurred:', error);
+
     ctx.throw(500, error);
   }
 }

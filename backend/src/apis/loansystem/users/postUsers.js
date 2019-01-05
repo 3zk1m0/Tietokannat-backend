@@ -2,20 +2,20 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import postUserBody from '../../../helpers/bodyCheckers';
-import hashPassword from '../../../helpers';
+import bodyChecker from '../../../helpers/bodyCheckers';
+import hashPassword from '../../../helpers/hashPassword';
 
 // DELETE /resource/:id
 export default async function postUsers(ctx) {
   const body = ctx.request.body;
   console.log('.post text contains:', body);
 
-  postUserBody(ctx, body);
+  bodyChecker.postUserBody(ctx, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const password = await hashPassword(body.password);
-    console.log(password);
+    // console.log(password);
     await conn.execute(`
       INSERT INTO users (name, role, email, password)
       VALUES ('${body.name}', '${body.role}', '${body.email}', '${password}');`);
@@ -36,6 +36,7 @@ export default async function postUsers(ctx) {
     ctx.set('Location', newUrl);
 
     // Return the new todo
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

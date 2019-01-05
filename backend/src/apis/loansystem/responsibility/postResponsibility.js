@@ -2,13 +2,13 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import postResponsibilityBody from '../../../helpers/bodyCheckers';
+import bodyChecker from '../../../helpers/bodyCheckers';
 
 export default async function postResponsibility(ctx) {
   const body = ctx.request.body;
   console.log('.post text contains:', body);
 
-  postResponsibilityBody(ctx, body);
+  bodyChecker.postResponsibilityBody(ctx, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
@@ -32,6 +32,7 @@ export default async function postResponsibility(ctx) {
     ctx.set('Location', newUrl);
 
     // Return the new todo
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

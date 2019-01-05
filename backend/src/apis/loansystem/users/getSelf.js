@@ -19,6 +19,7 @@ export default async function getSelf(ctx) {
           WHERE uuid = '${body.id}';`);
     console.log(data[0]);
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

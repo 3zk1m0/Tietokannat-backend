@@ -12,16 +12,46 @@ export default async function getLoans(ctx) {
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
-    const [data] = await conn.execute(`
-        SELECT uuid as id, device_uuid as device_id, loaningTime, dueDate, returnTime, 
-        loansState, returnState, customer_uuid as customer_id, 
-        loanGiver_uuid as loanGiver_id, loanReceiver_uuid as loanReceiver_id
-        FROM loans
+    const [data1] = await conn.execute(`
+    SELECT loans.uuid as id,
+    devices.deviceName as device,
+    loans.loaningTime,
+    loans.dueDate, loans.returnTime, 
+    loans.loansState, loans.returnState,
+    customerList.name as customer, 
+    giverList.name as loanGiver,
+    receiverList.name as loanReceiver
+    FROM loans, users as customerList, users as giverList, users as receiverList, devices
+    WHERE loans.device_uuid = devices.uuid
+    AND loans.customer_uuid = customerList.uuid
+    AND loans.loanGiver_uuid = giverList.uuid
+    AND loans.loanReceiver_uuid = receiverList.uuid
+        ${orderBy}
+      `);
+    const [data2] = await conn.execute(`
+    select distinct id, device, loaningTime, dueDate, loansState, customer, loanGiver  from (SELECT distinctrow loans.uuid as id,
+      devices.deviceName as device,
+      loans.loaningTime,
+      loans.dueDate, loans.returnTime, 
+      loans.loansState, loans.returnState,
+      customerList.name as customer, 
+      giverList.name as loanGiver,
+      receiverList.name as loanReceiver
+      FROM loans, users as customerList, users as giverList, users as receiverList, devices
+      WHERE loans.device_uuid = devices.uuid
+      AND loans.customer_uuid = customerList.uuid
+      AND loans.loanGiver_uuid = giverList.uuid
+      AND loans.returnState is null) as tables
         ${orderBy}
       `);
 
+    for (let i = 0; i < data2.length; i += 1) {
+      data2[i].returnState = null;
+      data2[i].loanReceiver = null;
+    }
     // Return all todos
-    ctx.body = data;
+    conn.end();
+    ctx.body = data1.concat(data2);
   } catch (error) {
     console.error('Error occurred:', error);
     ctx.throw(500, error);

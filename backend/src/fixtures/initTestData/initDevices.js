@@ -24,12 +24,13 @@ export default async () => {
   if (data[0].count === 0) {
     console.log('initDevices');
     let device = '';
+    let sql = 'INSERT INTO devices (deviceName, deviceInfo, loantime) VALUES ';
     for (let i = 0; i < count; i += 1) {
       device = deviceList[Math.floor(Math.random() * deviceList.length)];
-      conn.execute(`
-            INSERT INTO devices (deviceName, deviceInfo, loantime)
-            VALUES ('${device.name}', '${device.name}', '${device.loantime}');
-            `);
+      sql += `('${device.name}', '${device.name}', ${device.loantime}),`;
     }
+    // console.log(sql.slice(0, -1));
+    conn.execute(sql.slice(0, -1));
+    console.log('Devices Done');
   }
 };

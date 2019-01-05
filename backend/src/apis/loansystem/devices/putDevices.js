@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
-import putDeviceBody from '../../../helpers/bodyCheckers';
+import bodyChecker from '../../../helpers/bodyCheckers';
 
 // DELETE /resource/:id
 export default async function putDevices(ctx) {
@@ -9,7 +9,11 @@ export default async function putDevices(ctx) {
   console.log('.put id contains:', id);
   console.log('.put body contains:', body);
 
-  putDeviceBody(ctx, id, body);
+  if (typeof body.loantime === 'string') {
+    body.loantime = parseInt(body.loantime, 10);
+  }
+
+  bodyChecker.putDeviceBody(ctx, id, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
@@ -41,6 +45,7 @@ export default async function putDevices(ctx) {
     }
     // console.log(data);
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

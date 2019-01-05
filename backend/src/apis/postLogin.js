@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { connectionSettings } from '../settings';
 
+const secret = process.env.SECRET || 'A very secret key';
 
 // DELETE /resource/:id
 export default async function post(ctx) {
@@ -12,19 +13,29 @@ export default async function post(ctx) {
   try {
     const conn = await mysql.createConnection(connectionSettings);
     const [data] = await conn.execute(`
-          SELECT uuid as id, role, email, password
+          SELECT uuid as id, name, role, email, password
           FROM users
           WHERE email = '${body.email}';
         `);
 
     // Set the Location header to point to the new resource
+    conn.end();
 
-    if (bcrypt.compareSync(body.password, data[0].password)) {
-      ctx.status = 200;
-      ctx.body = {
-        token: jwt.sign({ id: data[0].id }, 'A very secret key', { expiresIn: 86400 }), // expires in 24 hours Should be the same secret key as the one used is ./jwt.js
-        message: 'Successfully logged in!',
-      };
+    if (typeof data[0] !== 'undefined') {
+      if (bcrypt.compareSync(body.password, data[0].password)) {
+        ctx.status = 200;
+        ctx.body = {
+          token: jwt.sign({ id: data[0].id }, secret, { expiresIn: 86400 }),
+          role: data[0].role,
+          name: data[0].name,
+          message: 'Successfully logged in!',
+        };
+      } else {
+        ctx.status = 401;
+        ctx.body = {
+          message: 'Authentication failed',
+        };
+      }
     } else {
       ctx.status = 401;
       ctx.body = {

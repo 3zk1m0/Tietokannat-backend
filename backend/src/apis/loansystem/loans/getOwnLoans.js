@@ -20,6 +20,7 @@ export default async function getOwnLoans(ctx) {
           WHERE customer_uuid = '${body.id}';`);
 
     // Return the resource
+    conn.end();
     ctx.body = data;
   } catch (error) {
     console.error('Error occurred:', error);

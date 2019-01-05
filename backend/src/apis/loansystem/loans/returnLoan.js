@@ -2,14 +2,14 @@ import mysql from 'mysql2/promise';
 import Router from 'koa-router';
 import { connectionSettings } from '../../../settings';
 import { loansystemPath } from '../../constants';
-import returnBody from '../../../helpers/bodyCheckers';
+import bodyChecker from '../../../helpers/bodyCheckers';
 
 export default async function returnLoan(ctx) {
   const { id } = ctx.params;
   const body = ctx.request.body;
   console.log(body);
 
-  returnBody(ctx, id, body);
+  bodyChecker.returnBody(ctx, id, body);
 
   try {
     const conn = await mysql.createConnection(connectionSettings);
@@ -41,6 +41,7 @@ export default async function returnLoan(ctx) {
     ctx.set('Location', newUrl);
 
     // Return the new todo
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

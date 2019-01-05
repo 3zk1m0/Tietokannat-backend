@@ -20,6 +20,7 @@ export default async function get(ctx) {
         `, { id });
 
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);

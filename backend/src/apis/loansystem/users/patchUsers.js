@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 import { connectionSettings } from '../../../settings';
 import operatePatch from '../../../helpers/patchOperator';
-import hashPassword from '../../../helpers';
+import hashPassword from '../../../helpers/hashPassword';
 
 // DELETE /resource/:id
 export default async function patchUser(ctx) {
@@ -45,6 +45,7 @@ export default async function patchUser(ctx) {
     data[0].id = data[0].uuid;
     delete data[0].uuid;
     // Return the resource
+    conn.end();
     ctx.body = data[0];
   } catch (error) {
     console.error('Error occurred:', error);
