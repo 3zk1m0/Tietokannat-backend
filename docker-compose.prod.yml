@@ -10,7 +10,7 @@ services:
     volumes:
       - /opt/mysql-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "134679852"
       MYSQL_DATABASE: db_1
     restart: always
   mywebsql:
