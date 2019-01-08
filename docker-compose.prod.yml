@@ -12,6 +12,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "134679852"
       MYSQL_DATABASE: db_1
+    ports:
+      - "3306:3306"
     restart: always
   mywebsql:
     image: quantumobject/docker-mywebsql
