@@ -27,11 +27,11 @@ const koaBody = new KoaBody();
 // Instantiate routers
 const loansystem = new Router();
 
-
+app.use(KoaCors());
 // ????  ALL ROUTES added to todos ????
 addRoutes(loansystem, koaBody);
 
-app.use(KoaCors());
+
 app.use(loansystem.routes());
 app.use(loansystem.allowedMethods());
 
